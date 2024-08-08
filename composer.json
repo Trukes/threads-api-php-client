@@ -1,0 +1,29 @@
+{
+    "name": "trukes/threads-api-php-client",
+    "description": "A PHP client library for accessing Threads from Meta",
+    "autoload": {
+        "psr-4": {
+            "Trukes\\ThreadsApiPhpClient\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pedro Carmo",
+            "email": "pedro.m.a.carmo@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "php-http/client-common": "^2.7",
+        "guzzlehttp/guzzle": "^7.9",
+        "php-http/discovery": "^1.19"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    }
+}
