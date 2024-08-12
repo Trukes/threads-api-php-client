@@ -2,14 +2,13 @@
 
 namespace Trukes\ThreadsApiPhpClient;
 
-use Psr\Http\Message\ResponseInterface;
+use Trukes\ThreadsApiPhpClient\DTO\Payload;
+use Trukes\ThreadsApiPhpClient\DTO\Response;
 
 interface TransporterInterface
 {
     public const POST = 'POST';
     public const GET = 'GET';
-    public const PUT = 'PUT';
-    public const DELETE = 'DELETE';
 
-    public function request(string $method, $uri, array $options = []): ResponseInterface;
+    public function request(Payload $payload): Response;
 }

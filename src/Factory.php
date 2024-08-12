@@ -5,6 +5,9 @@ namespace Trukes\ThreadsApiPhpClient;
 use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
 use Trukes\ThreadsApiPhpClient\DTO\Config;
+use Trukes\ThreadsApiPhpClient\DTO\Transporter\BaseUri;
+use Trukes\ThreadsApiPhpClient\DTO\Transporter\Headers;
+use Trukes\ThreadsApiPhpClient\DTO\Transporter\QueryParams;
 
 final class Factory
 {
@@ -35,9 +38,25 @@ final class Factory
 
     public function make(): Client
     {
+        $headers = Headers::create();
+
+        /*foreach ($this->headers as $name => $value) {
+            $headers = $headers->withCustomHeader($name, $value);
+        }*/
+
+        $baseUri = BaseUri::from($this->config->getGraphApiBaseUrl());
+
+        $queryParams = QueryParams::create();
+
+        $queryParams->withParam('access_token', $this->accessToken);
+/*        foreach ($this->queryParams as $name => $value) {
+            $queryParams = $queryParams->withParam($name, $value);
+        }*/
+
         $client = $this->httpClient ??= Psr18ClientDiscovery::find();
 
-        $transporter = new Transporter($client, $this->config, $this->accessToken);
+        $transporter = new Transporter($client, $baseUri, $headers, $queryParams);
+
         return new Client($transporter);
     }
 }
