@@ -21,7 +21,7 @@ class Example
 
         $client->posts()->singleThreadPosts();*/
 
-        $client = Threads::client();
+        $client = Threads::client('token');
 
         $client->posts()
             ->createMediaContainer();

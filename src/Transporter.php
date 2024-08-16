@@ -2,26 +2,92 @@
 
 namespace Trukes\ThreadsApiPhpClient;
 
+use GuzzleHttp\Exception\ClientException;
+use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
-use Trukes\ThreadsApiPhpClient\DTO\Config;
+use Trukes\ThreadsApiPhpClient\DTO\Payload;
+use Closure;
+use JsonException;
+use Trukes\ThreadsApiPhpClient\DTO\Response;
+use Trukes\ThreadsApiPhpClient\DTO\Transporter\BaseUri;
+use Trukes\ThreadsApiPhpClient\DTO\Transporter\Headers;
+use Trukes\ThreadsApiPhpClient\DTO\Transporter\QueryParams;
+use Trukes\ThreadsApiPhpClient\Exception\ErrorException;
+use Trukes\ThreadsApiPhpClient\Exception\TransporterException;
+use Trukes\ThreadsApiPhpClient\Exception\UnserializableResponse;
 
 final class Transporter implements TransporterInterface
 {
     public function __construct(
-        private ClientInterface $httpClient,
-        private Config $config,
-        private ?string $accessToken,
+        private readonly ClientInterface $httpClient,
+        private readonly BaseUri $baseUri,
+        private readonly Headers $headers,
+        private readonly QueryParams $queryParams,
     )
     {
     }
 
-    public function request(string $method, $uri, array $options = []): ResponseInterface
+    /**
+     * @throws JsonException
+     * @throws ErrorException
+     * @throws UnserializableResponse|TransporterException
+     */
+    public function request(Payload $payload): Response
     {
-        return $this->httpClient->request(
-            $method,
-            sprintf('%s/%s',$this->config->getGraphApiBaseUrl(), $uri),
-            $options
-        );
+        $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
+
+        try {
+            $response = $this->httpClient->sendRequest($request);
+        } catch (ClientExceptionInterface $clientException) {
+            if ($clientException instanceof ClientException) {
+                $this->throwIfJsonError($clientException->getResponse(), $clientException->getResponse()->getBody()->getContents());
+            }
+
+            throw new TransporterException($clientException);
+        }
+
+        $contents = $response->getBody()->getContents();
+
+        $this->throwIfJsonError($response, $contents);
+
+        try {
+            /** @var array{error?: array{message: string, type: string, code: string}} $data */
+            $data = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
+        } catch (JsonException $jsonException) {
+            throw new UnserializableResponse($jsonException);
+        }
+
+        return Response::from($data, $response->getHeaders());
+    }
+
+    /**
+     * @throws ErrorException
+     * @throws UnserializableResponse
+     */
+    private function throwIfJsonError(ResponseInterface $response, string|ResponseInterface $contents): void
+    {
+        if ($response->getStatusCode() < 400) {
+            return;
+        }
+
+        if (! str_contains($response->getHeaderLine('Content-Type'), 'application/json')) {
+            return;
+        }
+
+        if ($contents instanceof ResponseInterface) {
+            $contents = $contents->getBody()->getContents();
+        }
+
+        try {
+            /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}} $response */
+            $response = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
+
+            if (isset($response['error'])) {
+                throw new ErrorException($response['error']);
+            }
+        } catch (JsonException $jsonException) {
+            throw new UnserializableResponse($jsonException);
+        }
     }
 }
