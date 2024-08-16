@@ -23,7 +23,7 @@ final class Response
      * @param  array<string, array<int, string>>  $headers
      * @return Response<TData>
      */
-    public static function from(array|string $data, array $headers): self
+    public static function from(array|string $data, array $headers = []): self
     {
         return new self($data, $headers);
     }
