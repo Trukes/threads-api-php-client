@@ -2,8 +2,8 @@
 
 namespace Trukes\ThreadsApiPhpClient;
 
-use Trukes\ThreadsApiPhpClient\Feature\Posts;
-use Trukes\ThreadsApiPhpClient\Feature\PostsInterface;
+use Trukes\ThreadsApiPhpClient\Feature\Posts\Posts;
+use Trukes\ThreadsApiPhpClient\Feature\Posts\PostsInterface;
 
 final class Client implements ClientInterface
 {

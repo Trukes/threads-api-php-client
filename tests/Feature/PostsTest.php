@@ -6,31 +6,33 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Trukes\ThreadsApiPhpClient\DTO\Payload;
 use Trukes\ThreadsApiPhpClient\DTO\Response;
-use Trukes\ThreadsApiPhpClient\Feature\Posts;
+use Trukes\ThreadsApiPhpClient\Feature\Posts\Exception\PostsFeatureException;
+use Trukes\ThreadsApiPhpClient\Feature\Posts\Posts;
 use Trukes\ThreadsApiPhpClient\TransporterInterface;
 
 final class PostsTest extends TestCase
 {
+    protected TransporterInterface $transporter;
+
+    protected Posts $posts;
+
     #[DataProvider('dataProviderCreateMediaContainer')]
     public function testPostsCreateMediaContainer(
-        string $threadsUserId,
-        array $data,
-        Payload $payload,
+        string   $threadsUserId,
+        array    $data,
+        Payload  $payload,
         Response $response
     ): void
     {
-        $transporter = self::createMock(TransporterInterface::class);
-        $transporter
+        $this->transporter
             ->expects(self::once())
             ->method('request')
             ->with($payload)
             ->willReturn($response);
 
-        $posts = new Posts($transporter);
+        $mediaContainer = $this->posts->createMediaContainer($threadsUserId, $data);
 
-        $mediaContainer = $posts->createMediaContainer($threadsUserId, $data);
-
-        self::assertEquals($response->data(), $mediaContainer->data());
+        self::assertEquals($response->data()['id'], $mediaContainer->id);
     }
 
     public static function dataProviderCreateMediaContainer(): array
@@ -38,11 +40,11 @@ final class PostsTest extends TestCase
         return [
             'posts' => [
                 'thread-user-id-1',
-                ['ola', 'mundo'],
+                ['hello', 'world'],
                 Payload::create(
                     TransporterInterface::POST,
                     'thread-user-id-1/threads',
-                    ['ola', 'mundo']
+                    ['hello', 'world']
                 ),
                 Response::from(['id' => 12345])
             ]
@@ -51,24 +53,21 @@ final class PostsTest extends TestCase
 
     #[DataProvider('dataProviderPublishMediaContainer')]
     public function testPostsPublishMediaContainer(
-        string $threadsUserId,
-        array $data,
-        Payload $payload,
+        string   $threadsUserId,
+        array    $data,
+        Payload  $payload,
         Response $response
     ): void
     {
-        $transporter = self::createMock(TransporterInterface::class);
-        $transporter
+        $this->transporter
             ->expects(self::once())
             ->method('request')
             ->with($payload)
             ->willReturn($response);
 
-        $posts = new Posts($transporter);
+        $mediaContainer = $this->posts->publishMediaContainer($threadsUserId, $data);
 
-        $mediaContainer = $posts->publishMediaContainer($threadsUserId, $data);
-
-        self::assertEquals($response->data(), $mediaContainer->data());
+        self::assertEquals($response->data()['id'], $mediaContainer->id);
     }
 
     public static function dataProviderPublishMediaContainer(): array
@@ -76,14 +75,42 @@ final class PostsTest extends TestCase
         return [
             'posts' => [
                 'thread-user-id-1',
-                ['ola', 'mundo'],
+                ['hello', 'world'],
                 Payload::create(
                     TransporterInterface::POST,
                     'thread-user-id-1/threads_publish',
-                    ['ola', 'mundo']
+                    ['hello', 'world']
                 ),
                 Response::from(['id' => 12345])
             ]
         ];
+    }
+
+
+    public function testPostException(): void
+    {
+        $this->transporter
+            ->expects(self::once())
+            ->method('request')
+            ->with(
+                Payload::create(
+                    TransporterInterface::POST,
+                    'thread-user-id-1/threads_publish',
+                    ['hello', 'world']
+                )
+            )
+            ->willReturn(Response::from(['no_id_found' => 12345]));
+
+        self::expectException(PostsFeatureException::class);
+        self::expectExceptionMessage('Response was invalid. No id found.');
+
+        $this->posts->publishMediaContainer('thread-user-id-1', ['hello', 'world']);
+    }
+
+
+    protected function setUp(): void
+    {
+        $this->transporter = self::createMock(TransporterInterface::class);
+        $this->posts = new Posts($this->transporter);
     }
 }

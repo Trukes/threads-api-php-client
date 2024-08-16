@@ -2,7 +2,7 @@
 
 namespace Trukes\ThreadsApiPhpClient;
 
-use Trukes\ThreadsApiPhpClient\Feature\PostsInterface;
+use Trukes\ThreadsApiPhpClient\Feature\Posts\PostsInterface;
 
 interface ClientInterface
 {
