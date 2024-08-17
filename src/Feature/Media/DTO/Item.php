@@ -53,20 +53,4 @@ final class Item implements FromResponseInterface
             $data['is_quote_post']
         );
     }
-
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id,
-            'media_product_type' => $this->mediaProductType,
-            'media_type' => $this->mediaType,
-            'permalink' => $this->permalink,
-            'owner' => $this->owner?->toArray(),
-            'username' => $this->username,
-            'text' => $this->text,
-            'timestamp' => $this->timestamp?->format('Y-m-d H:i:s'),
-            'shortcode' => $this->shortcode,
-            'is_quote_post' => $this->isQuotePost
-        ];
-    }
 }
