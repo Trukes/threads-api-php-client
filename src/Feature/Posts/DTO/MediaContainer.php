@@ -4,8 +4,9 @@ namespace Trukes\ThreadsApiPhpClient\Feature\Posts\DTO;
 
 use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\Feature\Posts\Exception\PostsFeatureException;
+use Trukes\ThreadsApiPhpClient\Service\FromResponseInterface;
 
-final class MediaContainer
+final class MediaContainer implements FromResponseInterface
 {
     public function __construct(public readonly string $id)
     {

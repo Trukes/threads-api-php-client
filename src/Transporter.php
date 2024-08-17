@@ -7,7 +7,6 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Trukes\ThreadsApiPhpClient\DTO\Payload;
-use Closure;
 use JsonException;
 use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\BaseUri;
