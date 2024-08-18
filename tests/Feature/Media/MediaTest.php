@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 use Trukes\ThreadsApiPhpClient\DTO\Payload;
 use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\Feature\Media\DTO\Item;
-use Trukes\ThreadsApiPhpClient\Feature\Media\Exception\MediaFeatureException;
 use Trukes\ThreadsApiPhpClient\Feature\Media\Media;
 use Trukes\ThreadsApiPhpClient\TransporterInterface;
 
@@ -188,6 +187,7 @@ final class MediaTest extends TestCase
                     json_decode(
                         '{
       "id": "1234567",
+      "media_url": "https://www.threads.net/acb",
       "media_product_type": "THREADS",
       "media_type": "TEXT_POST",
       "permalink": "https://www.threads.net/@threadsapitestuser/post/abcdefg",
@@ -205,6 +205,7 @@ final class MediaTest extends TestCase
                 ),
                 [
                     'id' => '1234567',
+                    'media_url' => 'https://www.threads.net/acb',
                     'media_product_type' => 'THREADS',
                     'media_type' => 'TEXT_POST',
                     'permalink' => 'https://www.threads.net/@threadsapitestuser/post/abcdefg',
@@ -217,10 +218,36 @@ final class MediaTest extends TestCase
                     'shortcode' => 'abcdefg',
                     'is_quote_post' => false
                 ]
+            ],
+            'media_with_some_fields' => [
+                'thread-user-id-1',
+                [
+                    'media_url',
+                ],
+                ['since' => '2023-10-15', 'until' => '2024-10-15'],
+                Payload::create(
+                    TransporterInterface::GET,
+                    'thread-user-id-1',
+                    [
+                        'since' => '2023-10-15',
+                        'until' => '2024-10-15',
+                        'fields' => 'media_url'
+                    ]
+                ),
+                Response::from(
+                    json_decode(
+                        '{
+      "media_url": "https://www.threads.net/@threadsapitestuser/post/abcdefg"
+}'
+                        , true),
+
+                ),
+                [
+                    'media_url' => 'https://www.threads.net/@threadsapitestuser/post/abcdefg',
+                ]
             ]
         ];
     }
-
 
     protected function setUp(): void
     {

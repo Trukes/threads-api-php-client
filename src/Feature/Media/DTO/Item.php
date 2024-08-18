@@ -12,6 +12,7 @@ final class Item implements FromResponseInterface
 {
     public function __construct(
         public readonly ?int               $id,
+        public readonly ?string            $mediaUrl,
         public readonly ?string            $mediaProductType,
         public readonly ?string            $mediaType,
         public readonly ?string            $permalink,
@@ -41,16 +42,17 @@ final class Item implements FromResponseInterface
     public static function fromArray(array $data): self
     {
         return new self(
-            $data['id'],
-            $data['media_product_type'],
-            $data['media_type'],
-            $data['permalink'],
-            new Owner($data['owner']['id'] ?? null),
-            $data['username'],
-            $data['text'],
-            new DateTime($data['timestamp']),
-            $data['shortcode'],
-            $data['is_quote_post']
+            $data['id'] ?? null,
+            $data['media_url'] ?? null,
+            $data['media_product_type']  ?? null,
+            $data['media_type']  ?? null,
+            $data['permalink']  ?? null,
+            Owner::fromArray($data['owner'] ?? []),
+            $data['username'] ?? null,
+            $data['text'] ?? null,
+            array_key_exists('timestamp', $data) ? new DateTime($data['timestamp']) : null,
+            $data['shortcode'] ?? null,
+            $data['is_quote_post'] ?? null
         );
     }
 }
