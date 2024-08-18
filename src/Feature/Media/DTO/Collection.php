@@ -3,50 +3,13 @@ declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\Feature\Media\DTO;
 
-use Trukes\ThreadsApiPhpClient\DTO\Response;
-use Trukes\ThreadsApiPhpClient\Service\FromResponseInterface;
-use Exception;
+use Trukes\ThreadsApiPhpClient\Service\Collection\AbstractCollection;
+use Trukes\ThreadsApiPhpClient\Service\Collection\ItemInterface;
 
-final class Collection implements FromResponseInterface
+final class Collection extends AbstractCollection
 {
-    protected array $data = [];
-
-    private function __construct(private readonly Paging $pagination)
+    public function getItem(array $item): ItemInterface
     {
-    }
-
-    /**
-     * @throws Exception
-     */
-    public static function fromResponse(Response $response): self
-    {
-        $paging = Paging::fromResponse($response);
-        assert($paging instanceof Paging);
-
-        $data = $response->data()['data'];
-
-        $collection = new self($paging);
-        foreach ($data as $item) {
-            $collection->append(Item::fromArray($item));
-        }
-
-        return $collection;
-    }
-
-    public function append(Item $media): self
-    {
-        $this->data[] = $media;
-
-        return $this;
-    }
-
-    public function getPagination(): Paging
-    {
-        return $this->pagination;
-    }
-
-    public function getData(): array
-    {
-        return $this->data;
+        return Item::fromArray($item);
     }
 }

@@ -1,0 +1,59 @@
+<?php
+declare(strict_types=1);
+
+namespace Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO;
+
+use Trukes\ThreadsApiPhpClient\Service\Collection\ItemInterface;
+
+final class Thread implements ItemInterface
+{
+    public function __construct(
+        public readonly ?string $id,
+        public readonly ?string $text,
+        public readonly ?string $username,
+        public readonly ?string $permalink,
+        public readonly ?string $timestamp,
+        public readonly ?string $mediaProductType,
+        public readonly ?string $mediaType,
+        public readonly ?string $mediaUrl,
+        public readonly ?string $shortcode,
+        public readonly ?string $thumbnailUrl,
+        public readonly ?string $children,
+        public readonly ?bool   $isQuotePost,
+        public readonly ?bool   $hasReplies,
+        public readonly ?string $rootPost,
+        public readonly ?string $repliedTo,
+        public readonly ?bool   $isReply,
+        public readonly ?bool   $isReplyOwnedByMe,
+        public readonly ?string $hideStatus,
+        public readonly ?string $replyAudience,
+    )
+    {
+    }
+
+    public static function fromArray(array $item): self
+    {
+        // TODO:: convert some classes into DTO
+        return new self(
+            $item['id'] ?? null,
+            $item['text'] ?? null,
+            $item['username'] ?? null,
+            $item['permalink'] ?? null,
+            $item['timestamp'] ?? null,
+            $item['media_product_type'] ?? null,
+            $item['media_type'] ?? null,
+            $item['media_url'] ?? null,
+            $item['shortcode'] ?? null,
+            $item['thumbnail_url'] ?? null,
+            $item['children'] ?? null,
+            $item['is_quote_post'] ?? null,
+            $item['has_replies'] ?? null,
+            $item['root_post'] ?? null, // -> like this one
+            $item['replied_to'] ?? null, // -> like this one
+            $item['is_reply'] ?? null,
+            $item['isReplyOwnedByMe'] ?? null,
+            $item['hideStatus'] ?? null,
+            $item['replyAudience'] ?? null,
+        );
+    }
+}

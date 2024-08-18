@@ -1,17 +1,19 @@
 <?php
+declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\Feature\Media\DTO;
 
 use DateTimeInterface;
 use Trukes\ThreadsApiPhpClient\DTO\Response;
 use DateTime;
+use Trukes\ThreadsApiPhpClient\Service\Collection\ItemInterface;
 use Trukes\ThreadsApiPhpClient\Service\FromResponseInterface;
 use Exception;
 
-final class Item implements FromResponseInterface
+final class Item implements FromResponseInterface, ItemInterface
 {
-    public function __construct(
-        public readonly ?int               $id,
+    private function __construct(
+        public readonly ?string            $id,
         public readonly ?string            $mediaUrl,
         public readonly ?string            $mediaProductType,
         public readonly ?string            $mediaType,
@@ -39,20 +41,20 @@ final class Item implements FromResponseInterface
     /**
      * @throws Exception
      */
-    public static function fromArray(array $data): self
+    public static function fromArray(array $item): self
     {
         return new self(
-            $data['id'] ?? null,
-            $data['media_url'] ?? null,
-            $data['media_product_type']  ?? null,
-            $data['media_type']  ?? null,
-            $data['permalink']  ?? null,
-            Owner::fromArray($data['owner'] ?? []),
-            $data['username'] ?? null,
-            $data['text'] ?? null,
-            array_key_exists('timestamp', $data) ? new DateTime($data['timestamp']) : null,
-            $data['shortcode'] ?? null,
-            $data['is_quote_post'] ?? null
+            $item['id'] ?? null,
+            $item['media_url'] ?? null,
+            $item['media_product_type'] ?? null,
+            $item['media_type'] ?? null,
+            $item['permalink'] ?? null,
+            Owner::fromArray($item['owner'] ?? []),
+            $item['username'] ?? null,
+            $item['text'] ?? null,
+            array_key_exists('timestamp', $item) ? new DateTime($item['timestamp']) : null,
+            $item['shortcode'] ?? null,
+            $item['is_quote_post'] ?? null
         );
     }
 }
