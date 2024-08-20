@@ -58,31 +58,31 @@ final class ReplyManagement implements ReplyManagementInterface
 
     public function userReplies(string $threadsUserId, array $fields, array $queryParameters): UserReplies
     {
-        // TODO: Implement userReplies() method.
+        return new UserReplies();
     }
 
     public function hideReplies(string $threadsReplyId, array $fields, array $queryParameters): HideReplies
     {
-        // TODO: Implement hideReplies() method.
+        return new HideReplies();
     }
 
     public function createRespondReplies(string $threadsReplyId, array $fields, array $queryParameters): MediaContainer
     {
-        // TODO: Implement createRespondReplies() method.
+        return new MediaContainer();
     }
 
     public function publishRespondReplies(string $threadsUserId, array $fields, array $queryParameters): MediaContainer
     {
-        // TODO: Implement publishRespondReplies() method.
+        return new MediaContainer();
     }
 
     public function controlWhoCanReply(string $threadsUserId, array $fields, array $queryParameters): MediaContainer
     {
-        // TODO: Implement controlWhoCanReply() method.
+        return new MediaContainer();
     }
 
     public function publishWhoCanReply(string $threadsUserId, array $fields, array $queryParameters): MediaContainer
     {
-        // TODO: Implement publishWhoCanReply() method.
+        return new MediaContainer();
     }
 }

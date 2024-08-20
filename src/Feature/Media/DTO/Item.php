@@ -18,7 +18,7 @@ final class Item implements FromResponseInterface, ItemInterface
         public readonly ?string            $mediaProductType,
         public readonly ?string            $mediaType,
         public readonly ?string            $permalink,
-        public readonly ?Owner             $owner,
+        public readonly Owner             $owner,
         public readonly ?string            $username,
         public readonly ?string            $text,
         public readonly ?DateTimeInterface $timestamp,
