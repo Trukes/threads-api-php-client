@@ -58,7 +58,22 @@ final class ReplyManagement implements ReplyManagementInterface
 
     public function userReplies(string $threadsUserId, array $fields, array $queryParameters): UserReplies
     {
-        return new UserReplies();
+        $response = UserReplies::fromResponse(
+            $this->transporter->request(
+                Payload::create(
+                    TransporterInterface::GET,
+                    sprintf('%s/replies', $threadsUserId),
+                    [
+                        ...$queryParameters,
+                        'fields' => implode(',', $fields)
+                    ]
+                )
+            )
+        );
+
+        assert($response instanceof UserReplies);
+
+        return $response;
     }
 
     public function hideReplies(string $threadsReplyId, array $fields, array $queryParameters): HideReplies

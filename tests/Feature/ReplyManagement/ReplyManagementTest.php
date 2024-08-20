@@ -10,6 +10,7 @@ use Trukes\ThreadsApiPhpClient\DTO\Payload;
 use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO\ThreadsCollectionConversation;
 use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO\ThreadsCollectionReplies;
+use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO\UserReplies;
 use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\ReplyManagement;
 use Trukes\ThreadsApiPhpClient\TransporterInterface;
 
@@ -138,6 +139,64 @@ final class ReplyManagementTest extends TestCase
         ];
     }
 
+    #[DataProvider('dataProviderUserReplies')]
+    public function testUserReplies(
+        string   $threadsUserId,
+        array    $fields,
+        array    $queryParameters,
+        Payload  $payload,
+        Response $response,
+    ): void
+    {
+        $this->transporter
+            ->expects(self::once())
+            ->method('request')
+            ->with($payload)
+            ->willReturn($response);
+
+        $threadsConversation = $this->replyManagement->userReplies($threadsUserId, $fields, $queryParameters);
+
+        self::assertEquals(
+            UserReplies::fromResponse($response),
+            $threadsConversation
+        );
+    }
+
+    public static function dataProviderUserReplies(): array
+    {
+        return [
+            'reply_management_thread_user_replies' => [
+                'thread-user-id-1',
+                ReplyManagementResponse::THREADS_USER_REPLIES_FULL_FIELDS,
+                ['since' => '2023-10-15', 'until' => '2024-10-15'],
+                Payload::create(
+                    TransporterInterface::GET,
+                    'thread-user-id-1/replies',
+                    [
+                        'since' => '2023-10-15',
+                        'until' => '2024-10-15',
+                        'fields' => 'id,media_product_type,media_type,permalink,username,text,timestamp,shortcode,is_quote_post,has_replies,root_post,replied_to,is_reply,is_reply_owned_by_me,reply_audience',
+                    ]
+                ),
+                Response::from(json_decode(ReplyManagementResponse::THREADS_USER_REPLIES_FULL_RESPONSE, true)),
+            ],
+            'reply_management_user_replies_with_some_fields' => [
+                'thread-user-id-1',
+                ReplyManagementResponse::THREADS_USER_REPLIES_HALF_FIELDS,
+                ['since' => '2023-10-15', 'until' => '2024-10-15'],
+                Payload::create(
+                    TransporterInterface::GET,
+                    'thread-user-id-1/replies',
+                    [
+                        'since' => '2023-10-15',
+                        'until' => '2024-10-15',
+                        'fields' => 'reply_audience'
+                    ]
+                ),
+                Response::from(json_decode(ReplyManagementResponse::THREADS_USER_REPLIES_HALF_RESPONSE, true))
+            ]
+        ];
+    }
 
     protected function setUp(): void
     {

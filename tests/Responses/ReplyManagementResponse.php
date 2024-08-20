@@ -224,4 +224,70 @@ final class ReplyManagementResponse
     }
   }
 }';
+
+    public const THREADS_USER_REPLIES_FULL_FIELDS = [
+        'id',
+        'media_product_type',
+        'media_type',
+        'permalink',
+        'username',
+        'text',
+        'timestamp',
+        'shortcode',
+        'is_quote_post',
+        'has_replies',
+        'root_post',
+        'replied_to',
+        'is_reply',
+        'is_reply_owned_by_me',
+        'reply_audience',
+    ];
+    public const THREADS_USER_REPLIES_FULL_RESPONSE = '{
+  "data": [
+    {
+      "id": "1234567",
+      "media_product_type": "THREADS",
+      "media_type": "TEXT_POST",
+      "permalink": "https://www.threads.net/@threadsapitestuser/post/abcdefg",
+      "username": "threadsapitestuser",
+      "text": "Reply Text",
+      "timestamp": "2023-10-17T05:42:03+0000",
+      "shortcode": "abcdefg",
+      "is_quote_post": false,
+      "has_replies": false,
+      "root_post": {
+        "id": "1234567890"
+      },
+      "replied_to": {
+        "id": "1234567890"
+      },
+      "is_reply": true,
+      "is_reply_owned_by_me": true,
+      "reply_audience": "EVERYONE"
+    }
+  ],
+  "paging": {
+    "cursors": {
+      "before": "BEFORE_CURSOR",
+      "after": "AFTER_CURSOR"
+    }
+  }
+}';
+
+    public const THREADS_USER_REPLIES_HALF_FIELDS = [
+        'reply_audience'
+    ];
+    public const THREADS_USER_REPLIES_HALF_RESPONSE = '{
+  "data": [
+    {
+      "reply_audience": "EVERYONE"
+    }
+  ],
+  "paging": {
+    "cursors": {
+      "before": "BEFORE_CURSOR",
+      "after": "AFTER_CURSOR"
+    }
+  }
+}';
 }

@@ -6,28 +6,27 @@ namespace Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO;
 use Trukes\ThreadsApiPhpClient\Service\Collection\ItemInterface;
 use DateTime;
 
-final class Thread implements ItemInterface
+final class UserReply implements ItemInterface
 {
-    public function __construct(
+    private function __construct(
         public readonly ?string   $id,
         public readonly ?string   $text,
         public readonly ?string   $username,
         public readonly ?string   $permalink,
         public readonly ?DateTime $timestamp,
-        public readonly ?string   $mediaProductType,
-        public readonly ?string   $mediaType,
-        public readonly ?string   $mediaUrl,
+        public readonly ?string   $media_product_type,
+        public readonly ?string   $media_type,
+        public readonly ?string   $media_url,
         public readonly ?string   $shortcode,
-        public readonly ?string   $thumbnailUrl,
+        public readonly ?string   $thumbnail_url,
         public readonly ?string   $children,
-        public readonly ?bool     $isQuotePost,
-        public readonly ?bool     $hasReplies,
-        public readonly RootPost  $rootPost,
-        public readonly ReplyTo   $repliedTo,
-        public readonly ?bool     $isReply,
-        public readonly ?bool     $isReplyOwnedByMe,
-        public readonly ?string   $hideStatus,
-        public readonly ?string   $replyAudience,
+        public readonly ?bool     $is_quote_post,
+        public readonly ?bool     $has_replies,
+        public readonly RootPost  $root_post,
+        public readonly ReplyTo   $replied_to,
+        public readonly ?bool     $is_reply,
+        public readonly ?bool     $is_reply_owned_by_me,
+        public readonly ?string   $reply_audience,
     )
     {
     }
@@ -52,7 +51,6 @@ final class Thread implements ItemInterface
             ReplyTo::fromArray($item['replied_to'] ?? []),
             $item['is_reply'] ?? null,
             $item['is_reply_owned_by_me'] ?? null,
-            $item['hide_status'] ?? null,
             $item['reply_audience'] ?? null,
         );
     }
