@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Tests\Responses\ReplyManagementResponse;
 use Trukes\ThreadsApiPhpClient\DTO\Payload;
 use Trukes\ThreadsApiPhpClient\DTO\Response;
+use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO\HideReplies;
 use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO\ThreadsCollectionConversation;
 use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO\ThreadsCollectionReplies;
 use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO\UserReplies;
@@ -194,6 +195,44 @@ final class ReplyManagementTest extends TestCase
                     ]
                 ),
                 Response::from(json_decode(ReplyManagementResponse::THREADS_USER_REPLIES_HALF_RESPONSE, true))
+            ]
+        ];
+    }
+
+    #[DataProvider('dataProviderHideReplies')]
+    public function testHideReplies(
+        string   $threadsReplyId,
+        array    $formFields,
+        Payload  $payload,
+        Response $response,
+    ): void
+    {
+        $this->transporter
+            ->expects(self::once())
+            ->method('request')
+            ->with($payload)
+            ->willReturn($response);
+
+        $threads = $this->replyManagement->hideReplies($threadsReplyId, $formFields);
+
+        self::assertEquals(
+            HideReplies::fromResponse($response),
+            $threads
+        );
+    }
+
+    public static function dataProviderHideReplies(): array
+    {
+        return [
+            'reply_management_thread_hide_replies' => [
+                'thread-reply-id-1',
+                ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS,
+                Payload::create(
+                    method: TransporterInterface::POST,
+                    uri: 'thread-reply-id-1/manage_reply',
+                    bodyForm: ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS
+                ),
+                Response::from(json_decode(ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_RESPONSE, true)),
             ]
         ];
     }

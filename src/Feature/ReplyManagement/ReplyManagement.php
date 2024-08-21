@@ -76,14 +76,14 @@ final class ReplyManagement implements ReplyManagementInterface
         return $response;
     }
 
-    public function hideReplies(string $threadsReplyId, array $formFields, array $queryParameters): HideReplies
+    public function hideReplies(string $threadsReplyId, array $formFields): HideReplies
     {
         $response = HideReplies::fromResponse(
             $this->transporter->request(
                 Payload::create(
-                    TransporterInterface::POST,
-                    sprintf('%s/manage_reply', $threadsReplyId),
-                    $queryParameters
+                    method: TransporterInterface::POST,
+                    uri: sprintf('%s/manage_reply', $threadsReplyId),
+                    bodyForm: $formFields
                 )
                 ->withAccessTokenOnQueryParams(false)
                 ->withAccessTokenOnBodyForm(true)
