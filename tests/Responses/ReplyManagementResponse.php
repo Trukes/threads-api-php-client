@@ -290,4 +290,9 @@ final class ReplyManagementResponse
     }
   }
 }';
+
+    public const THREADS_HIDE_REPLIES_FULL_RESPONSE = '{
+ "success": true
+}';
+
 }
