@@ -8,12 +8,12 @@ use Trukes\ThreadsApiPhpClient\Service\FromResponseInterface;
 
 final class HideReplies implements FromResponseInterface
 {
-    private function __construct(public readonly ?int $id)
+    private function __construct(public readonly ?bool $success)
     {
     }
 
     public static function fromResponse(Response $response): FromResponseInterface
     {
-        return new self(array_key_exists('id', $response->data()) ? $response->data()['id'] : null);
+        return new self(array_key_exists('success', $response->data()) ? (bool) $response->data()['success'] : null);
     }
 }

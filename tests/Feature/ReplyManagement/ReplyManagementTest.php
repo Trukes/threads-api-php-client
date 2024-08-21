@@ -9,6 +9,7 @@ use Tests\Responses\ReplyManagementResponse;
 use Trukes\ThreadsApiPhpClient\DTO\Payload;
 use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO\HideReplies;
+use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO\MediaContainer;
 use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO\ThreadsCollectionConversation;
 use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO\ThreadsCollectionReplies;
 use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\DTO\UserReplies;

@@ -292,9 +292,7 @@ final class ReplyManagementResponse
 }';
 
     public const THREADS_HIDE_REPLIES_FULL_FORM_FIELDS = [
-        'media_type' => 'media',
-        'text' => 'text',
-        'reply_to_id' => '1234'
+        'hide' => 'true'
     ];
 
 
