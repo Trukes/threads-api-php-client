@@ -85,8 +85,8 @@ final class ReplyManagement implements ReplyManagementInterface
                     uri: sprintf('%s/manage_reply', $threadsReplyId),
                     bodyForm: $formFields
                 )
-                ->withAccessTokenOnQueryParams(false)
-                ->withAccessTokenOnBodyForm(true)
+                    ->withAccessTokenOnQueryParams(false)
+                    ->withAccessTokenOnBodyForm(true)
             )
         );
 
@@ -95,23 +95,75 @@ final class ReplyManagement implements ReplyManagementInterface
         return $response;
     }
 
-    public function createRespondReplies(string $threadsReplyId, array $fields, array $queryParameters): MediaContainer
+    public function createRespondReplies(array $formFields, string $threadsUserId = 'me'): MediaContainer
     {
-        return new MediaContainer();
+        $response = MediaContainer::fromResponse(
+            $this->transporter->request(
+                Payload::create(
+                    method: TransporterInterface::POST,
+                    uri: sprintf('%s/threads', $threadsUserId),
+                    bodyForm: $formFields
+                )
+                    ->withAccessTokenOnQueryParams(false)
+                    ->withAccessTokenOnBodyForm(true)
+            )
+        );
+
+        assert($response instanceof MediaContainer);
+
+        return $response;
     }
 
-    public function publishRespondReplies(string $threadsUserId, array $fields, array $queryParameters): MediaContainer
+    public function publishRespondReplies(string $threadsUserId, array $queryParameters): MediaContainer
     {
-        return new MediaContainer();
+        $response = MediaContainer::fromResponse(
+            $this->transporter->request(
+                Payload::create(
+                    TransporterInterface::POST,
+                    sprintf('%s/threads_publish', $threadsUserId),
+                    $queryParameters
+                )
+            )
+        );
+
+        assert($response instanceof MediaContainer);
+
+        return $response;
     }
 
-    public function controlWhoCanReply(string $threadsUserId, array $fields, array $queryParameters): MediaContainer
+    public function controlWhoCanReply(array $formFields, string $threadsUserId = 'me'): MediaContainer
     {
-        return new MediaContainer();
+        $response = MediaContainer::fromResponse(
+            $this->transporter->request(
+                Payload::create(
+                    method: TransporterInterface::POST,
+                    uri: sprintf('%s/threads', $threadsUserId),
+                    bodyForm: $formFields
+                )
+                    ->withAccessTokenOnQueryParams(false)
+                    ->withAccessTokenOnBodyForm(true)
+            )
+        );
+
+        assert($response instanceof MediaContainer);
+
+        return $response;
     }
 
-    public function publishWhoCanReply(string $threadsUserId, array $fields, array $queryParameters): MediaContainer
+    public function publishWhoCanReply(array $queryParameters, string $threadsUserId = 'me'): MediaContainer
     {
-        return new MediaContainer();
+        $response = MediaContainer::fromResponse(
+            $this->transporter->request(
+                Payload::create(
+                    TransporterInterface::POST,
+                    sprintf('%s/threads_publish', $threadsUserId),
+                    $queryParameters
+                )
+            )
+        );
+
+        assert($response instanceof MediaContainer);
+
+        return $response;
     }
 }

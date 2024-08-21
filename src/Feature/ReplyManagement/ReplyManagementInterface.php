@@ -15,8 +15,8 @@ interface ReplyManagementInterface
     public function threadConversation(string $mediaId, array $fields, array $queryParameters): ThreadsCollectionConversation;
     public function userReplies(string $threadsUserId, array $fields, array $queryParameters): UserReplies;
     public function hideReplies(string $threadsReplyId, array $formFields): HideReplies;
-    public function createRespondReplies(string $threadsReplyId, array $fields, array $queryParameters): MediaContainer;
-    public function publishRespondReplies(string $threadsUserId, array $fields, array $queryParameters): MediaContainer;
-    public function controlWhoCanReply(string $threadsUserId, array $fields, array $queryParameters): MediaContainer;
-    public function publishWhoCanReply(string $threadsUserId, array $fields, array $queryParameters): MediaContainer;
+    public function createRespondReplies(array $formFields, string $threadsUserId = 'me'): MediaContainer;
+    public function publishRespondReplies(string $threadsUserId, array $queryParameters): MediaContainer;
+    public function controlWhoCanReply(array $formFields, string $threadsUserId = 'me'): MediaContainer;
+    public function publishWhoCanReply(array $queryParameters, string $threadsUserId = 'me'): MediaContainer;
 }

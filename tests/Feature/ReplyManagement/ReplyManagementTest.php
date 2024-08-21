@@ -238,6 +238,163 @@ final class ReplyManagementTest extends TestCase
         ];
     }
 
+    #[DataProvider('dataProviderCreateRespondReplies')]
+    public function testCreateRespondReplies(
+        string   $threadsReplyId,
+        array    $formFields,
+        Payload  $payload,
+        Response $response,
+    ): void
+    {
+        $this->markTestIncomplete();
+        $this->transporter
+            ->expects(self::once())
+            ->method('request')
+            ->with($payload)
+            ->willReturn($response);
+
+        $threads = $this->replyManagement->hideReplies($threadsReplyId, $formFields);
+
+        self::assertEquals(
+            HideReplies::fromResponse($response),
+            $threads
+        );
+    }
+
+    public static function dataProviderCreateRespondReplies(): array
+    {
+        return [
+            'reply_management_thread_hide_replies' => [
+                'thread-reply-id-1',
+                ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS,
+                Payload::create(
+                    method: TransporterInterface::POST,
+                    uri: 'thread-reply-id-1/manage_reply',
+                    bodyForm: ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS
+                ),
+                Response::from(json_decode(ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_RESPONSE, true)),
+            ]
+        ];
+    }
+
+    #[DataProvider('dataProviderPublishRespondReplies')]
+    public function testPublishRespondReplies(
+        string   $threadsReplyId,
+        array    $formFields,
+        Payload  $payload,
+        Response $response,
+    ): void
+    {
+        $this->markTestIncomplete();
+        $this->transporter
+            ->expects(self::once())
+            ->method('request')
+            ->with($payload)
+            ->willReturn($response);
+
+        $threads = $this->replyManagement->hideReplies($threadsReplyId, $formFields);
+
+        self::assertEquals(
+            HideReplies::fromResponse($response),
+            $threads
+        );
+    }
+
+    public static function dataProviderPublishRespondReplies(): array
+    {
+        return [
+            'reply_management_thread_hide_replies' => [
+                'thread-reply-id-1',
+                ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS,
+                Payload::create(
+                    method: TransporterInterface::POST,
+                    uri: 'thread-reply-id-1/manage_reply',
+                    bodyForm: ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS
+                ),
+                Response::from(json_decode(ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_RESPONSE, true)),
+            ]
+        ];
+    }
+
+    #[DataProvider('dataProviderControlWhoCanReply')]
+    public function testControlWhoCanReply(
+        string   $threadsReplyId,
+        array    $formFields,
+        Payload  $payload,
+        Response $response,
+    ): void
+    {
+        $this->markTestIncomplete();
+        $this->transporter
+            ->expects(self::once())
+            ->method('request')
+            ->with($payload)
+            ->willReturn($response);
+
+        $threads = $this->replyManagement->hideReplies($threadsReplyId, $formFields);
+
+        self::assertEquals(
+            HideReplies::fromResponse($response),
+            $threads
+        );
+    }
+
+    public static function dataProviderControlWhoCanReply(): array
+    {
+        return [
+            'reply_management_thread_hide_replies' => [
+                'thread-reply-id-1',
+                ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS,
+                Payload::create(
+                    method: TransporterInterface::POST,
+                    uri: 'thread-reply-id-1/manage_reply',
+                    bodyForm: ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS
+                ),
+                Response::from(json_decode(ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_RESPONSE, true)),
+            ]
+        ];
+    }
+
+
+    #[DataProvider('dataProviderPublishControlWhoCanReply')]
+    public function testPublishControlWhoCanReply(
+        string   $threadsReplyId,
+        array    $formFields,
+        Payload  $payload,
+        Response $response,
+    ): void
+    {
+        $this->markTestIncomplete();
+        $this->transporter
+            ->expects(self::once())
+            ->method('request')
+            ->with($payload)
+            ->willReturn($response);
+
+        $threads = $this->replyManagement->hideReplies($threadsReplyId, $formFields);
+
+        self::assertEquals(
+            HideReplies::fromResponse($response),
+            $threads
+        );
+    }
+
+    public static function dataProviderPublishControlWhoCanReply(): array
+    {
+        return [
+            'reply_management_thread_hide_replies' => [
+                'thread-reply-id-1',
+                ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS,
+                Payload::create(
+                    method: TransporterInterface::POST,
+                    uri: 'thread-reply-id-1/manage_reply',
+                    bodyForm: ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS
+                ),
+                Response::from(json_decode(ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_RESPONSE, true)),
+            ]
+        ];
+    }
+
     protected function setUp(): void
     {
         $this->transporter = self::createMock(TransporterInterface::class);
