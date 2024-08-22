@@ -8,13 +8,12 @@ use Trukes\ThreadsApiPhpClient\Service\FromResponseInterface;
 
 final class MediaContainer implements FromResponseInterface
 {
-    //private function __construct(public readonly ?int $id)
-    public function __construct(public readonly ?int $id = null)
+    private function __construct(public readonly ?int $id)
     {
     }
 
     public static function fromResponse(Response $response): FromResponseInterface
     {
-        return new self(array_key_exists('id', $response->data()) ? $response->data()['id'] : null);
+        return new self(array_key_exists('id', $response->data()) ? (int) $response->data()['id'] : null);
     }
 }

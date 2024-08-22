@@ -240,23 +240,21 @@ final class ReplyManagementTest extends TestCase
 
     #[DataProvider('dataProviderCreateRespondReplies')]
     public function testCreateRespondReplies(
-        string   $threadsReplyId,
         array    $formFields,
         Payload  $payload,
         Response $response,
     ): void
     {
-        $this->markTestIncomplete();
         $this->transporter
             ->expects(self::once())
             ->method('request')
             ->with($payload)
             ->willReturn($response);
 
-        $threads = $this->replyManagement->hideReplies($threadsReplyId, $formFields);
+        $threads = $this->replyManagement->createRespondReplies($formFields);
 
         self::assertEquals(
-            HideReplies::fromResponse($response),
+            MediaContainer::fromResponse($response),
             $threads
         );
     }
@@ -264,15 +262,14 @@ final class ReplyManagementTest extends TestCase
     public static function dataProviderCreateRespondReplies(): array
     {
         return [
-            'reply_management_thread_hide_replies' => [
-                'thread-reply-id-1',
-                ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS,
+            'reply_management_thread_create_respond_replies' => [
+                ReplyManagementResponse::THREADS_CREATE_RESPOND_FULL_FORM_FIELDS,
                 Payload::create(
                     method: TransporterInterface::POST,
-                    uri: 'thread-reply-id-1/manage_reply',
-                    bodyForm: ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS
+                    uri: 'me/threads',
+                    bodyForm: ReplyManagementResponse::THREADS_CREATE_RESPOND_FULL_FORM_FIELDS
                 ),
-                Response::from(json_decode(ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_RESPONSE, true)),
+                Response::from(json_decode(ReplyManagementResponse::THREADS_CREATE_RESPOND_FULL_RESPONSE, true)),
             ]
         ];
     }
@@ -280,22 +277,21 @@ final class ReplyManagementTest extends TestCase
     #[DataProvider('dataProviderPublishRespondReplies')]
     public function testPublishRespondReplies(
         string   $threadsReplyId,
-        array    $formFields,
+        array    $queryParams,
         Payload  $payload,
         Response $response,
     ): void
     {
-        $this->markTestIncomplete();
         $this->transporter
             ->expects(self::once())
             ->method('request')
             ->with($payload)
             ->willReturn($response);
 
-        $threads = $this->replyManagement->hideReplies($threadsReplyId, $formFields);
+        $threads = $this->replyManagement->publishRespondReplies($threadsReplyId, $queryParams);
 
         self::assertEquals(
-            HideReplies::fromResponse($response),
+            MediaContainer::fromResponse($response),
             $threads
         );
     }
@@ -303,38 +299,36 @@ final class ReplyManagementTest extends TestCase
     public static function dataProviderPublishRespondReplies(): array
     {
         return [
-            'reply_management_thread_hide_replies' => [
-                'thread-reply-id-1',
-                ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS,
+            'reply_management_thread_respond_replies' => [
+                'thread-user-id-1',
+                ReplyManagementResponse::THREADS_PUBLISH_RESPOND_FULL_FORM_FIELDS,
                 Payload::create(
                     method: TransporterInterface::POST,
-                    uri: 'thread-reply-id-1/manage_reply',
-                    bodyForm: ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS
+                    uri: 'thread-user-id-1/threads_publish',
+                    queryParameters: ReplyManagementResponse::THREADS_PUBLISH_RESPOND_FULL_FORM_FIELDS,
                 ),
-                Response::from(json_decode(ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_RESPONSE, true)),
+                Response::from(json_decode(ReplyManagementResponse::THREADS_PUBLISH_RESPOND_FULL_RESPONSE, true)),
             ]
         ];
     }
 
     #[DataProvider('dataProviderControlWhoCanReply')]
     public function testControlWhoCanReply(
-        string   $threadsReplyId,
         array    $formFields,
         Payload  $payload,
         Response $response,
     ): void
     {
-        $this->markTestIncomplete();
         $this->transporter
             ->expects(self::once())
             ->method('request')
             ->with($payload)
             ->willReturn($response);
 
-        $threads = $this->replyManagement->hideReplies($threadsReplyId, $formFields);
+        $threads = $this->replyManagement->controlWhoCanReply($formFields);
 
         self::assertEquals(
-            HideReplies::fromResponse($response),
+            MediaContainer::fromResponse($response),
             $threads
         );
     }
@@ -342,15 +336,14 @@ final class ReplyManagementTest extends TestCase
     public static function dataProviderControlWhoCanReply(): array
     {
         return [
-            'reply_management_thread_hide_replies' => [
-                'thread-reply-id-1',
-                ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS,
+            'reply_management_thread' => [
+                ReplyManagementResponse::THREADS_CONTROL_WHO_CAN_REPLY_FULL_FORM_FIELDS,
                 Payload::create(
                     method: TransporterInterface::POST,
-                    uri: 'thread-reply-id-1/manage_reply',
-                    bodyForm: ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS
+                    uri: 'me/threads',
+                    bodyForm: ReplyManagementResponse::THREADS_CONTROL_WHO_CAN_REPLY_FULL_FORM_FIELDS
                 ),
-                Response::from(json_decode(ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_RESPONSE, true)),
+                Response::from(json_decode(ReplyManagementResponse::THREADS_CONTROL_WHO_CAN_REPLY_FULL_RESPONSE, true)),
             ]
         ];
     }
@@ -358,23 +351,21 @@ final class ReplyManagementTest extends TestCase
 
     #[DataProvider('dataProviderPublishControlWhoCanReply')]
     public function testPublishControlWhoCanReply(
-        string   $threadsReplyId,
-        array    $formFields,
+        array    $queryParameters,
         Payload  $payload,
         Response $response,
     ): void
     {
-        $this->markTestIncomplete();
         $this->transporter
             ->expects(self::once())
             ->method('request')
             ->with($payload)
             ->willReturn($response);
 
-        $threads = $this->replyManagement->hideReplies($threadsReplyId, $formFields);
+        $threads = $this->replyManagement->publishWhoCanReply($queryParameters);
 
         self::assertEquals(
-            HideReplies::fromResponse($response),
+            MediaContainer::fromResponse($response),
             $threads
         );
     }
@@ -382,15 +373,14 @@ final class ReplyManagementTest extends TestCase
     public static function dataProviderPublishControlWhoCanReply(): array
     {
         return [
-            'reply_management_thread_hide_replies' => [
-                'thread-reply-id-1',
-                ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS,
+            'reply_management_thread' => [
+                ReplyManagementResponse::THREADS_PUBLISH_CONTROL_WHO_CAN_REPLY_FULL_FORM_FIELDS,
                 Payload::create(
                     method: TransporterInterface::POST,
-                    uri: 'thread-reply-id-1/manage_reply',
-                    bodyForm: ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS
+                    uri: 'me/threads_publish',
+                    queryParameters: ReplyManagementResponse::THREADS_PUBLISH_CONTROL_WHO_CAN_REPLY_FULL_FORM_FIELDS
                 ),
-                Response::from(json_decode(ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_RESPONSE, true)),
+                Response::from(json_decode(ReplyManagementResponse::THREADS_PUBLISH_CONTROL_WHO_CAN_REPLY_FULL_RESPONSE, true)),
             ]
         ];
     }

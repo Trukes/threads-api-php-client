@@ -295,9 +295,44 @@ final class ReplyManagementResponse
         'hide' => 'true'
     ];
 
-
     public const THREADS_HIDE_REPLIES_FULL_RESPONSE = '{
  "success": true
+}';
+
+    public const THREADS_CREATE_RESPOND_FULL_FORM_FIELDS = [
+        'media_type' => 'type',
+        'text' => 'text',
+        'reply_to_id' => 'threadId'
+    ];
+
+    public const THREADS_CREATE_RESPOND_FULL_RESPONSE = '{
+ "id": "1234567890"
+}';
+
+    public const THREADS_PUBLISH_RESPOND_FULL_FORM_FIELDS = [
+        'creation_id' => '12345',
+    ];
+
+    public const THREADS_PUBLISH_RESPOND_FULL_RESPONSE = '{
+ "id": "1234567890"
+}';
+
+    public const THREADS_CONTROL_WHO_CAN_REPLY_FULL_FORM_FIELDS = [
+        'media_type' => 'type',
+        'text' => 'text',
+        'reply_control' => 'accounts_you_follow',
+    ];
+
+    public const THREADS_CONTROL_WHO_CAN_REPLY_FULL_RESPONSE = '{
+ "id": "1234567890"
+}';
+
+    public const THREADS_PUBLISH_CONTROL_WHO_CAN_REPLY_FULL_FORM_FIELDS = [
+        'creation_id' => '12345',
+    ];
+
+    public const THREADS_PUBLISH_CONTROL_WHO_CAN_REPLY_FULL_RESPONSE = '{
+ "id": "1234567890"
 }';
 
 }
