@@ -44,7 +44,7 @@ final class Payload
 
     public function withAccessTokenOnBodyForm(bool $value): self
     {
-        $this->withAccessTokenOnQueryParams = $value;
+        $this->withAccessTokenOnBodyForm = $value;
 
         return $this;
     }
