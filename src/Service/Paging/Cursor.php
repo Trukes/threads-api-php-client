@@ -1,6 +1,6 @@
 <?php
 
-namespace Trukes\ThreadsApiPhpClient\Feature\Media\DTO;
+namespace Trukes\ThreadsApiPhpClient\Service\Paging;
 
 final class Cursor
 {

@@ -5,7 +5,9 @@ namespace Trukes\ThreadsApiPhpClient\DTO;
 use Http\Discovery\Psr17Factory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
+use Trukes\ThreadsApiPhpClient\DTO\Transporter\AccessToken;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\BaseUri;
+use Trukes\ThreadsApiPhpClient\DTO\Transporter\BodyForm;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\Headers;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\QueryParams;
 use Trukes\ThreadsApiPhpClient\TransporterInterface;
@@ -15,25 +17,17 @@ final class Payload
     private function __construct(
         private readonly string $method,
         private readonly string $uri,
-        private readonly array $queryParameters = [],
-        private readonly array $body = [],
-        private readonly array $headers = [],
+        private readonly array  $queryParameters = [],
+        private readonly array  $bodyForm = [],
+        private bool            $withAccessTokenOnQueryParams = true,
+        private bool            $withAccessTokenOnBodyForm = false,
     )
     {
     }
 
-    public static function create(string $method ,string $uri, array $queryParameters = [], array $body = [], array $headers = []): self
+    public static function create(string $method, string $uri, array $queryParameters = [], array $bodyForm = []): self
     {
-        return new self($method, $uri, $queryParameters, $body, $headers);
-    }
-
-    public function uri(?array $parameters = []): string
-    {
-        if(!empty($this->queryParameters)){
-            return sprintf('%s?%s', $this->uri, http_build_query([...$this->queryParameters, ...$parameters]));
-        }
-
-        return $this->uri;
+        return new self($method, $uri, $queryParameters, $bodyForm);
     }
 
     public function method(): string
@@ -41,35 +35,52 @@ final class Payload
         return $this->method;
     }
 
-    public function options(): array
+    public function withAccessTokenOnQueryParams(bool $value): self
     {
-        return [
-            'headers' => $this->headers,
-            'body' => $this->body,
-        ];
+        $this->withAccessTokenOnQueryParams = $value;
+
+        return $this;
     }
 
-    public function toRequest(BaseUri $baseUri, Headers $headers, QueryParams $queryParams): RequestInterface
+    public function withAccessTokenOnBodyForm(bool $value): self
+    {
+        $this->withAccessTokenOnQueryParams = $value;
+
+        return $this;
+    }
+
+    public function toRequest(BaseUri $baseUri, AccessToken $accessToken, Headers $headers, QueryParams $queryParams, BodyForm $bodyForm): RequestInterface
     {
         $psr17Factory = new Psr17Factory();
 
         $body = null;
 
-        $uri = $baseUri->toString().$this->uri;
+        $uri = $baseUri->toString() . $this->uri;
 
         $queryParams = $queryParams->toArray();
         if ($this->method === TransporterInterface::GET) {
             $queryParams = [...$queryParams, ...$this->queryParameters];
         }
 
+        if($this->withAccessTokenOnQueryParams) {
+            $queryParams = [...$queryParams, ...$accessToken->toQueryParameters()];
+        }
+
         if ($queryParams !== []) {
-            $uri .= '?'.http_build_query($queryParams);
+            $uri .= '?' . http_build_query($queryParams);
         }
 
         $headers = $headers->withContentType('json');
 
-        if ($this->method === TransporterInterface::POST) {
-            $body = $psr17Factory->createStream(json_encode($this->queryParameters, JSON_THROW_ON_ERROR));
+        if (
+            $this->method === TransporterInterface::POST
+            && ([] !== $this->bodyForm || [] !== $bodyForm->toArray())
+        ) {
+            $bodyForm = [...$bodyForm->toArray(), ...$this->bodyForm];
+            if($this->withAccessTokenOnBodyForm){
+                $bodyForm = [...$bodyForm, ...$accessToken->toBodyFormParameters()];
+            }
+            $body = $psr17Factory->createStream($this->buildMultipartBody($bodyForm, uniqid()));
         }
 
         $request = $psr17Factory->createRequest($this->method, $uri);
@@ -83,5 +94,22 @@ final class Payload
         }
 
         return $request;
+    }
+
+    private function buildMultipartBody(array $bodyForm, string $boundary): string
+    {
+        $eol = "\r\n";
+
+        $body = '';
+
+        foreach ($bodyForm as $name => $value) {
+            $body = '--' . $boundary . $eol;
+            $body .= 'Content-Disposition: form-data; name="' . $name . '"' . $eol . $eol;
+            $body .= $value . $eol;
+        }
+
+        $body .= '--' . $boundary . '--' . $eol;
+
+        return $body;
     }
 }

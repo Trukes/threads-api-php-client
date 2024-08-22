@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient;
 
@@ -9,7 +10,9 @@ use Psr\Http\Message\ResponseInterface;
 use Trukes\ThreadsApiPhpClient\DTO\Payload;
 use JsonException;
 use Trukes\ThreadsApiPhpClient\DTO\Response;
+use Trukes\ThreadsApiPhpClient\DTO\Transporter\AccessToken;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\BaseUri;
+use Trukes\ThreadsApiPhpClient\DTO\Transporter\BodyForm;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\Headers;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\QueryParams;
 use Trukes\ThreadsApiPhpClient\Exception\ErrorException;
@@ -23,18 +26,19 @@ final class Transporter implements TransporterInterface
         private readonly BaseUri $baseUri,
         private readonly Headers $headers,
         private readonly QueryParams $queryParams,
+        private readonly BodyForm $bodyForm,
+        private readonly AccessToken $accessToken
     )
     {
     }
 
     /**
-     * @throws JsonException
      * @throws ErrorException
      * @throws UnserializableResponse|TransporterException
      */
     public function request(Payload $payload): Response
     {
-        $request = $payload->toRequest($this->baseUri, $this->headers, $this->queryParams);
+        $request = $payload->toRequest($this->baseUri, $this->accessToken, $this->headers, $this->queryParams, $this->bodyForm);
 
         try {
             $response = $this->httpClient->sendRequest($request);

@@ -9,7 +9,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Trukes\ThreadsApiPhpClient\DTO\Payload;
 use Trukes\ThreadsApiPhpClient\DTO\Response;
+use Trukes\ThreadsApiPhpClient\DTO\Transporter\AccessToken;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\BaseUri;
+use Trukes\ThreadsApiPhpClient\DTO\Transporter\BodyForm;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\Headers;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\QueryParams;
 use Trukes\ThreadsApiPhpClient\Exception\ErrorException;
@@ -25,15 +27,16 @@ final class TransporterTest extends TestCase
             $clientMock = self::createMock(ClientInterface::class),
             $baseUri = BaseUri::from('http://example.com'),
             $headers = Headers::create(),
-            $queryParams = QueryParams::create()->withParam('access_token', 'access-token-1')
+            $queryParams = QueryParams::create(),
+            $bodyForm = BodyForm::create(),
+            $accessToken = AccessToken::from('access-token-1')
         );
 
         $payload = Payload::create(
             'POST',
             'threads',
             ['hello' => 'world'],
-            ['this_is_a_body' => 'with_content'],
-            ['content/type' => 'json']
+            ['this_is_a_body' => 'with_content']
         );
 
         $response = self::createMock(ResponseInterface::class);
@@ -51,10 +54,10 @@ final class TransporterTest extends TestCase
         $clientMock
             ->expects(self::once())
             ->method('sendRequest')
-            ->with(self::callback(function ($request) use ($baseUri, $headers, $queryParams, $payload) {
+            ->with(self::callback(function ($request) use ($baseUri, $accessToken, $headers, $queryParams, $bodyForm, $payload) {
                 return $request->getMethod() === $payload->method()
-                    && (string) $request->getUri() === (string) $payload->toRequest($baseUri, $headers, $queryParams)->getUri()
-                    && $request->getHeaders() == $payload->toRequest($baseUri, $headers, $queryParams)->getHeaders();
+                    && (string) $request->getUri() === (string) $payload->toRequest($baseUri, $accessToken, $headers, $queryParams, $bodyForm)->getUri()
+                    && $request->getHeaders() == $payload->toRequest($baseUri, $accessToken, $headers, $queryParams, $bodyForm)->getHeaders();
             }))
             ->willReturn($response);
 
@@ -70,7 +73,9 @@ final class TransporterTest extends TestCase
             $clientMock = self::createMock(ClientInterface::class),
             $baseUri = BaseUri::from('http://example.com'),
             $headers = Headers::create(),
-            $queryParams = QueryParams::create()->withParam('access_token', 'access-token-1')
+            $queryParams = QueryParams::create(),
+            $bodyForm = BodyForm::create(),
+            $accessToken = AccessToken::from('access-token-1')
         );
 
         $payload = Payload::create(
@@ -78,7 +83,6 @@ final class TransporterTest extends TestCase
             'threads',
             ['hello' => 'world'],
             ['this_is_a_body' => 'with_content'],
-            ['content/type' => 'json']
         );
 
         $response = self::createMock(ResponseInterface::class);
@@ -102,10 +106,10 @@ final class TransporterTest extends TestCase
         $clientMock
             ->expects(self::once())
             ->method('sendRequest')
-            ->with(self::callback(function ($request) use ($baseUri, $headers, $queryParams, $payload) {
+            ->with(self::callback(function ($request) use ($baseUri, $accessToken, $headers, $queryParams, $bodyForm, $payload) {
                 return $request->getMethod() === $payload->method()
-                    && (string) $request->getUri() === (string) $payload->toRequest($baseUri, $headers, $queryParams)->getUri()
-                    && $request->getHeaders() == $payload->toRequest($baseUri, $headers, $queryParams)->getHeaders();
+                    && (string) $request->getUri() === (string) $payload->toRequest($baseUri, $accessToken, $headers, $queryParams, $bodyForm)->getUri()
+                    && $request->getHeaders() == $payload->toRequest($baseUri, $accessToken, $headers, $queryParams, $bodyForm)->getHeaders();
             }))
             ->willThrowException(
                 $clientException
@@ -122,7 +126,9 @@ final class TransporterTest extends TestCase
                 $clientMock = self::createMock(ClientInterface::class),
                 $baseUri = BaseUri::from('http://example.com'),
                 $headers = Headers::create(),
-                $queryParams = QueryParams::create()->withParam('access_token', 'access-token-1')
+                $queryParams = QueryParams::create(),
+                $bodyForm = BodyForm::create(),
+                $accessToken = AccessToken::from('access-token-1')
             );
 
             $payload = Payload::create(
@@ -130,7 +136,6 @@ final class TransporterTest extends TestCase
                 'threads',
                 ['hello' => 'world'],
                 ['this_is_a_body' => 'with_content'],
-                ['content/type' => 'json']
             );
 
             $response = self::createMock(ResponseInterface::class);
@@ -148,10 +153,10 @@ final class TransporterTest extends TestCase
             $clientMock
                 ->expects(self::once())
                 ->method('sendRequest')
-                ->with(self::callback(function ($request) use ($baseUri, $headers, $queryParams, $payload) {
+                ->with(self::callback(function ($request) use ($baseUri, $accessToken, $headers, $queryParams, $bodyForm, $payload) {
                     return $request->getMethod() === $payload->method()
-                        && (string) $request->getUri() === (string) $payload->toRequest($baseUri, $headers, $queryParams)->getUri()
-                        && $request->getHeaders() == $payload->toRequest($baseUri, $headers, $queryParams)->getHeaders();
+                        && (string) $request->getUri() === (string) $payload->toRequest($baseUri, $accessToken, $headers, $queryParams, $bodyForm)->getUri()
+                        && $request->getHeaders() == $payload->toRequest($baseUri, $accessToken, $headers, $queryParams, $bodyForm)->getHeaders();
                 }))
                 ->willReturn($response);
 
@@ -167,7 +172,9 @@ final class TransporterTest extends TestCase
                 $clientMock = self::createMock(ClientInterface::class),
                 $baseUri = BaseUri::from('http://example.com'),
                 $headers = Headers::create(),
-                $queryParams = QueryParams::create()->withParam('access_token', 'access-token-1')
+                $queryParams = QueryParams::create(),
+                $bodyForm = BodyForm::create(),
+                $accessToken = AccessToken::from('access-token-1')
             );
 
             $payload = Payload::create(
@@ -175,7 +182,6 @@ final class TransporterTest extends TestCase
                 'threads',
                 ['hello' => 'world'],
                 ['this_is_a_body' => 'with_content'],
-                ['content/type' => 'json']
             );
 
             $response = self::createMock(ResponseInterface::class);
@@ -204,10 +210,10 @@ final class TransporterTest extends TestCase
             $clientMock
                 ->expects(self::once())
                 ->method('sendRequest')
-                ->with(self::callback(function ($request) use ($baseUri, $headers, $queryParams, $payload) {
+                ->with(self::callback(function ($request) use ($baseUri, $accessToken, $headers, $queryParams, $bodyForm, $payload) {
                     return $request->getMethod() === $payload->method()
-                        && (string) $request->getUri() === (string) $payload->toRequest($baseUri, $headers, $queryParams)->getUri()
-                        && $request->getHeaders() == $payload->toRequest($baseUri, $headers, $queryParams)->getHeaders();
+                        && (string) $request->getUri() === (string) $payload->toRequest($baseUri, $accessToken, $headers, $queryParams, $bodyForm)->getUri()
+                        && $request->getHeaders() == $payload->toRequest($baseUri, $accessToken, $headers, $queryParams, $bodyForm)->getHeaders();
                 }))
                 ->willReturn($response);
 
@@ -222,7 +228,9 @@ final class TransporterTest extends TestCase
             $clientMock = self::createMock(ClientInterface::class),
             $baseUri = BaseUri::from('http://example.com'),
             $headers = Headers::create(),
-            $queryParams = QueryParams::create()->withParam('access_token', 'access-token-1')
+            $queryParams = QueryParams::create(),
+            $bodyForm = BodyForm::create(),
+            $accessToken = AccessToken::from('access-token-1')
         );
 
         $payload = Payload::create(
@@ -230,7 +238,6 @@ final class TransporterTest extends TestCase
             'threads',
             ['hello' => 'world'],
             ['this_is_a_body' => 'with_content'],
-            ['content/type' => 'json']
         );
 
         $response = self::createMock(ResponseInterface::class);
@@ -267,10 +274,10 @@ final class TransporterTest extends TestCase
         $clientMock
             ->expects(self::once())
             ->method('sendRequest')
-            ->with(self::callback(function ($request) use ($baseUri, $headers, $queryParams, $payload) {
+            ->with(self::callback(function ($request) use ($baseUri, $accessToken, $headers, $queryParams, $bodyForm, $payload) {
                 return $request->getMethod() === $payload->method()
-                    && (string) $request->getUri() === (string) $payload->toRequest($baseUri, $headers, $queryParams)->getUri()
-                    && $request->getHeaders() == $payload->toRequest($baseUri, $headers, $queryParams)->getHeaders();
+                    && (string) $request->getUri() === (string) $payload->toRequest($baseUri, $accessToken, $headers, $queryParams, $bodyForm)->getUri()
+                    && $request->getHeaders() == $payload->toRequest($baseUri, $accessToken, $headers, $queryParams, $bodyForm)->getHeaders();
             }))
             ->willThrowException($clientException);
 
@@ -284,7 +291,9 @@ final class TransporterTest extends TestCase
             $clientMock = self::createMock(ClientInterface::class),
             $baseUri = BaseUri::from('http://example.com'),
             $headers = Headers::create(),
-            $queryParams = QueryParams::create()->withParam('access_token', 'access-token-1')
+            $queryParams = QueryParams::create(),
+            $bodyForm = BodyForm::create(),
+            $accessToken = AccessToken::from('access-token-1')
         );
 
         $payload = Payload::create(
@@ -292,7 +301,6 @@ final class TransporterTest extends TestCase
             'threads',
             ['hello' => 'world'],
             ['this_is_a_body' => 'with_content'],
-            ['content/type' => 'json']
         );
 
         $response = self::createMock(ResponseInterface::class);
@@ -327,10 +335,10 @@ final class TransporterTest extends TestCase
         $clientMock
             ->expects(self::once())
             ->method('sendRequest')
-            ->with(self::callback(function ($request) use ($baseUri, $headers, $queryParams, $payload) {
+            ->with(self::callback(function ($request) use ($baseUri, $accessToken, $headers, $queryParams, $bodyForm, $payload) {
                 return $request->getMethod() === $payload->method()
-                    && (string) $request->getUri() === (string) $payload->toRequest($baseUri, $headers, $queryParams)->getUri()
-                    && $request->getHeaders() == $payload->toRequest($baseUri, $headers, $queryParams)->getHeaders();
+                    && (string) $request->getUri() === (string) $payload->toRequest($baseUri, $accessToken, $headers, $queryParams, $bodyForm)->getUri()
+                    && $request->getHeaders() == $payload->toRequest($baseUri, $accessToken, $headers, $queryParams, $bodyForm)->getHeaders();
             }))
             ->willThrowException($clientException);
 

@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
 
-namespace Trukes\ThreadsApiPhpClient\Feature\Media\DTO;
+namespace Trukes\ThreadsApiPhpClient\Service\Paging;
 
 use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\Service\FromResponseInterface;
