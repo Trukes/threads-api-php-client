@@ -3,7 +3,7 @@
 namespace Trukes\ThreadsApiPhpClient\Feature\Media;
 
 use Trukes\ThreadsApiPhpClient\DTO\Payload;
-use Trukes\ThreadsApiPhpClient\Feature\Media\DTO\Collection;
+use Trukes\ThreadsApiPhpClient\Feature\Media\DTO\RelyManagementCollection;
 use Trukes\ThreadsApiPhpClient\Feature\Media\DTO\Item;
 use Trukes\ThreadsApiPhpClient\TransporterInterface;
 use Trukes\ThreadsApiPhpClient\TransporterTrait;
@@ -38,9 +38,9 @@ final class Media implements MediaInterface
     /**
      * @throws Exception
      */
-    public function listAllUsersThreads(string $threadsUserId, array $fields, array $queryParams): Collection
+    public function listAllUsersThreads(string $threadsUserId, array $fields, array $queryParams): RelyManagementCollection
     {
-        return Collection::fromResponse(
+        return RelyManagementCollection::fromResponse(
             $this->transporter->request(
                 Payload::create(
                     TransporterInterface::GET,

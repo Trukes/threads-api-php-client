@@ -3,30 +3,17 @@ declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\Service\Collection;
 
-use Trukes\ThreadsApiPhpClient\DTO\Response;
-use Trukes\ThreadsApiPhpClient\Service\FromResponseInterface;
-use Trukes\ThreadsApiPhpClient\Service\Paging\Paging;
-use Exception;
-
-abstract class AbstractCollection implements FromResponseInterface
+abstract class AbstractCollection
 {
     protected array $data = [];
 
-    protected function __construct(private readonly Paging $pagination)
+    protected function __construct()
     {
     }
 
-    /**
-     * @throws Exception
-     */
-    public static function fromResponse(Response $response): self
+    public static function fromArray(array $data): static
     {
-        $paging = Paging::fromResponse($response);
-        assert($paging instanceof Paging);
-
-        $data = $response->data()['data'];
-
-        $collection = new static($paging);
+        $collection = new static();
         foreach ($data as $item) {
             $collection->append($collection->getItem($item));
         }
@@ -41,11 +28,6 @@ abstract class AbstractCollection implements FromResponseInterface
         $this->data[] = $item;
 
         return $this;
-    }
-
-    public function getPagination(): Paging
-    {
-        return $this->pagination;
     }
 
     public function getData(): array
