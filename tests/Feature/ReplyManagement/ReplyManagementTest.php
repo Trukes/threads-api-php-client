@@ -232,7 +232,9 @@ final class ReplyManagementTest extends TestCase
                     method: TransporterInterface::POST,
                     uri: 'thread-reply-id-1/manage_reply',
                     bodyForm: ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_FORM_FIELDS
-                ),
+                )
+                    ->withAccessTokenOnQueryParams(false)
+                    ->withAccessTokenOnBodyForm(true),
                 Response::from(json_decode(ReplyManagementResponse::THREADS_HIDE_REPLIES_FULL_RESPONSE, true)),
             ]
         ];
@@ -268,7 +270,9 @@ final class ReplyManagementTest extends TestCase
                     method: TransporterInterface::POST,
                     uri: 'me/threads',
                     bodyForm: ReplyManagementResponse::THREADS_CREATE_RESPOND_FULL_FORM_FIELDS
-                ),
+                )
+                    ->withAccessTokenOnQueryParams(false)
+                    ->withAccessTokenOnBodyForm(true),
                 Response::from(json_decode(ReplyManagementResponse::THREADS_CREATE_RESPOND_FULL_RESPONSE, true)),
             ]
         ];
@@ -342,7 +346,9 @@ final class ReplyManagementTest extends TestCase
                     method: TransporterInterface::POST,
                     uri: 'me/threads',
                     bodyForm: ReplyManagementResponse::THREADS_CONTROL_WHO_CAN_REPLY_FULL_FORM_FIELDS
-                ),
+                )
+                    ->withAccessTokenOnQueryParams(false)
+                    ->withAccessTokenOnBodyForm(true),
                 Response::from(json_decode(ReplyManagementResponse::THREADS_CONTROL_WHO_CAN_REPLY_FULL_RESPONSE, true)),
             ]
         ];

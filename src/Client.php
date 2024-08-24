@@ -1,7 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient;
 
+use Trukes\ThreadsApiPhpClient\Feature\Insights\Insights;
+use Trukes\ThreadsApiPhpClient\Feature\Insights\InsightsInterface;
 use Trukes\ThreadsApiPhpClient\Feature\Media\Media;
 use Trukes\ThreadsApiPhpClient\Feature\Media\MediaInterface;
 use Trukes\ThreadsApiPhpClient\Feature\Posts\Posts;
@@ -35,5 +38,10 @@ final class Client implements ClientInterface
     public function replyManagement(): ReplyManagementInterface
     {
         return new ReplyManagement($this->transporter);
+    }
+
+    public function insights(): InsightsInterface
+    {
+        return new Insights($this->transporter);
     }
 }
