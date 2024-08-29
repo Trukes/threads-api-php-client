@@ -2,29 +2,14 @@
 
 namespace Trukes\ThreadsApiPhpClient\Example;
 
+require "vendor/autoload.php";
 
 use Trukes\ThreadsApiPhpClient\Threads;
 
-class Example
-{
-    public static function post()
-    {
-        /*$client = new Client();
-        $client->authenticate([]);
-
-            $client
-                ->posts('thread-user-id')
-                ->singlePost()
-                ->createContainer()
-                ->publishContainer();
 
 
-        $client->posts()->singleThreadPosts();*/
+$reference = Threads::client('389032777277944|1deTeboDhCg7b4Ti5RHY0Ylw1cM');
 
-        $client = Threads::client('token');
+$create = $reference->publish()->status("1234", 'id,status,error_message')->data();
 
-        $client->posts()
-            ->createMediaContainer();
-
-    }
-}
+var_dump($create);

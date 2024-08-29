@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\DTO;
 
@@ -31,7 +32,7 @@ final class Response
     /**
      * Returns the response data.
      *
-     * @return TData
+     * @return array|string
      */
     public function data(): array|string
     {

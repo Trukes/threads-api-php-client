@@ -2,9 +2,11 @@
 
 namespace Trukes\ThreadsApiPhpClient;
 
+use Trukes\ThreadsApiPhpClient\Reference\Reference;
+
 final class Threads
 {
-    public static function client(?string $accessToken): Client
+    public static function client(?string $accessToken): Reference
     {
         return self::factory()
             ->withConfig()

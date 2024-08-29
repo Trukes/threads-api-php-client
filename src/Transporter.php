@@ -55,7 +55,6 @@ final class Transporter implements TransporterInterface
         $this->throwIfJsonError($response, $contents);
 
         try {
-            /** @var array{error?: array{message: string, type: string, code: string}} $data */
             $data = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
         } catch (JsonException $jsonException) {
             throw new UnserializableResponse($jsonException);
@@ -82,8 +81,11 @@ final class Transporter implements TransporterInterface
             $contents = $contents->getBody()->getContents();
         }
 
+        if(empty($contents)){
+            throw new ErrorException(['message' => $response->getBody()->getContents(), 'code' => $response->getStatusCode()]);
+        }
+
         try {
-            /** @var array{error?: array{message: string|array<int, string>, type: string, code: string}} $response */
             $response = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
 
             if (isset($response['error'])) {

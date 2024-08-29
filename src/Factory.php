@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient;
 
@@ -10,6 +11,12 @@ use Trukes\ThreadsApiPhpClient\DTO\Transporter\BaseUri;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\BodyForm;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\Headers;
 use Trukes\ThreadsApiPhpClient\DTO\Transporter\QueryParams;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Insights\Insights;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Media\Media;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Publish\Publish;
+use Trukes\ThreadsApiPhpClient\Reference\Container\ReplyManagement\ReplyManagement;
+use Trukes\ThreadsApiPhpClient\Reference\Container\User\User;
+use Trukes\ThreadsApiPhpClient\Reference\Reference;
 
 final class Factory
 {
@@ -38,13 +45,9 @@ final class Factory
         return $this;
     }
 
-    public function make(): Client
+    public function make(): Reference
     {
         $headers = Headers::create();
-
-        /*foreach ($this->headers as $name => $value) {
-            $headers = $headers->withCustomHeader($name, $value);
-        }*/
 
         $baseUri = BaseUri::from($this->config->getGraphApiBaseUrl());
 
@@ -54,14 +57,16 @@ final class Factory
 
         $accessToken = AccessToken::from($this->accessToken);
 
-        /*        foreach ($this->queryParams as $name => $value) {
-                    $queryParams = $queryParams->withParam($name, $value);
-                }*/
-
         $client = $this->httpClient ??= Psr18ClientDiscovery::find();
 
         $transporter = new Transporter($client, $baseUri, $headers, $queryParams, $bodyForm, $accessToken);
 
-        return new Client($transporter);
+        return new Reference(
+            new Publish($transporter),
+            new Media($transporter),
+            new ReplyManagement($transporter),
+            new User($transporter),
+            new Insights($transporter)
+        );
     }
 }

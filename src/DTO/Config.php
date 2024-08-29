@@ -24,8 +24,8 @@ final class Config
 
     public function __construct(
         ?string $graphApiVersion = 'v1.0',
-        ?string $graphApiBaseUrl = 'https://graph.threads.net/',
-        ?string $authorizationBaseUrl = 'https://www.threads.net/'
+        ?string $graphApiBaseUrl = 'https://graph.threads.net',
+        ?string $authorizationBaseUrl = 'https://www.threads.net'
     )
     {
         $this->graphApiVersion = $graphApiVersion;

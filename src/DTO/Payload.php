@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\DTO;
 
@@ -17,8 +18,8 @@ final class Payload
     private function __construct(
         private readonly string $method,
         private readonly string $uri,
-        private readonly array  $queryParameters = [],
-        private readonly array  $bodyForm = [],
+        private array           $queryParameters = [],
+        private array           $bodyForm = [],
         private bool            $withAccessTokenOnQueryParams = true,
         private bool            $withAccessTokenOnBodyForm = false,
     )
@@ -62,7 +63,7 @@ final class Payload
             $queryParams = [...$queryParams, ...$this->queryParameters];
         }
 
-        if($this->withAccessTokenOnQueryParams) {
+        if ($this->withAccessTokenOnQueryParams) {
             $queryParams = [...$queryParams, ...$accessToken->toQueryParameters()];
         }
 
@@ -77,10 +78,10 @@ final class Payload
             && ([] !== $this->bodyForm || [] !== $bodyForm->toArray())
         ) {
             $bodyForm = [...$bodyForm->toArray(), ...$this->bodyForm];
-            if($this->withAccessTokenOnBodyForm){
+            if ($this->withAccessTokenOnBodyForm) {
                 $bodyForm = [...$bodyForm, ...$accessToken->toBodyFormParameters()];
             }
-            $body = $psr17Factory->createStream($this->buildMultipartBody($bodyForm, uniqid()));
+            $body = $psr17Factory->createStream($this->buildMultipartBody($bodyForm));
         }
 
         $request = $psr17Factory->createRequest($this->method, $uri);
@@ -96,20 +97,8 @@ final class Payload
         return $request;
     }
 
-    private function buildMultipartBody(array $bodyForm, string $boundary): string
+    private function buildMultipartBody(array $bodyForm): string
     {
-        $eol = "\r\n";
-
-        $body = '';
-
-        foreach ($bodyForm as $name => $value) {
-            $body = '--' . $boundary . $eol;
-            $body .= 'Content-Disposition: form-data; name="' . $name . '"' . $eol . $eol;
-            $body .= $value . $eol;
-        }
-
-        $body .= '--' . $boundary . '--' . $eol;
-
-        return $body;
+        return json_encode($bodyForm);
     }
 }
