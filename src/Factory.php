@@ -1,15 +1,22 @@
 <?php
+declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient;
 
 use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
-use Trukes\ThreadsApiPhpClient\DTO\Config;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\AccessToken;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\BaseUri;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\BodyForm;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\Headers;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\QueryParams;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Insights\Insights;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Media\Media;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Publish\Publish;
+use Trukes\ThreadsApiPhpClient\Reference\Container\ReplyManagement\ReplyManagement;
+use Trukes\ThreadsApiPhpClient\Reference\Container\User\User;
+use Trukes\ThreadsApiPhpClient\Transporter\Transporter;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\AccessToken;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\BaseUri;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\BodyForm;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\Headers;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\QueryParams;
+use Trukes\ThreadsApiPhpClient\ValueObject\Config;
 
 final class Factory
 {
@@ -41,27 +48,19 @@ final class Factory
     public function make(): Client
     {
         $headers = Headers::create();
-
-        /*foreach ($this->headers as $name => $value) {
-            $headers = $headers->withCustomHeader($name, $value);
-        }*/
-
         $baseUri = BaseUri::from($this->config->getGraphApiBaseUrl());
-
-        $queryParams = QueryParams::create();
-
-        $bodyForm = BodyForm::create();
-
         $accessToken = AccessToken::from($this->accessToken);
-
-        /*        foreach ($this->queryParams as $name => $value) {
-                    $queryParams = $queryParams->withParam($name, $value);
-                }*/
 
         $client = $this->httpClient ??= Psr18ClientDiscovery::find();
 
-        $transporter = new Transporter($client, $baseUri, $headers, $queryParams, $bodyForm, $accessToken);
+        $transporter = new Transporter($client, $baseUri, $headers, $accessToken);
 
-        return new Client($transporter);
+        return new Client(
+            new Publish($transporter),
+            new Media($transporter),
+            new ReplyManagement($transporter),
+            new User($transporter),
+            new Insights($transporter)
+        );
     }
 }

@@ -1,12 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Trukes\ThreadsApiPhpClient\Client;
-use Trukes\ThreadsApiPhpClient\DTO\Config;
 use Trukes\ThreadsApiPhpClient\Threads;
+use Trukes\ThreadsApiPhpClient\ValueObject\Config;
 
 final class ThreadsTest extends TestCase
 {

@@ -3,17 +3,17 @@ declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient;
 
-use Trukes\ThreadsApiPhpClient\Feature\Insights\InsightsInterface;
-use Trukes\ThreadsApiPhpClient\Feature\Media\MediaInterface;
-use Trukes\ThreadsApiPhpClient\Feature\Posts\PostsInterface;
-use Trukes\ThreadsApiPhpClient\Feature\Profiles\ProfilesInterface;
-use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\ReplyManagementInterface;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Insights\Insights;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Media\Media;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Publish\Publish;
+use Trukes\ThreadsApiPhpClient\Reference\Container\ReplyManagement\ReplyManagement;
+use Trukes\ThreadsApiPhpClient\Reference\Container\User\User;
 
 interface ClientInterface
 {
-    public function posts(): PostsInterface;
-    public function media(): MediaInterface;
-    public function profiles(): ProfilesInterface;
-    public function replyManagement(): ReplyManagementInterface;
-    public function insights(): InsightsInterface;
+    public function publish(): Publish;
+    public function media(): Media;
+    public function replyManagement(): ReplyManagement;
+    public function user(): User;
+    public function insights(): Insights;
 }

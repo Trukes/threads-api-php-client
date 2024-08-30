@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\Exception;
 
@@ -20,29 +21,5 @@ final class ErrorException extends Exception
         }
 
         parent::__construct($message);
-    }
-
-    /**
-     * Returns the error message.
-     */
-    public function getErrorMessage(): string
-    {
-        return $this->getMessage();
-    }
-
-    /**
-     * Returns the error type.
-     */
-    public function getErrorType(): ?string
-    {
-        return $this->contents['type'];
-    }
-
-    /**
-     * Returns the error code.
-     */
-    public function getErrorCode(): string|int|null
-    {
-        return $this->contents['code'];
     }
 }

@@ -3,45 +3,46 @@ declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient;
 
-use Trukes\ThreadsApiPhpClient\Feature\Insights\Insights;
-use Trukes\ThreadsApiPhpClient\Feature\Insights\InsightsInterface;
-use Trukes\ThreadsApiPhpClient\Feature\Media\Media;
-use Trukes\ThreadsApiPhpClient\Feature\Media\MediaInterface;
-use Trukes\ThreadsApiPhpClient\Feature\Posts\Posts;
-use Trukes\ThreadsApiPhpClient\Feature\Posts\PostsInterface;
-use Trukes\ThreadsApiPhpClient\Feature\Profiles\Profiles;
-use Trukes\ThreadsApiPhpClient\Feature\Profiles\ProfilesInterface;
-use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\ReplyManagement;
-use Trukes\ThreadsApiPhpClient\Feature\ReplyManagement\ReplyManagementInterface;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Insights\Insights;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Media\Media;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Publish\Publish;
+use Trukes\ThreadsApiPhpClient\Reference\Container\ReplyManagement\ReplyManagement;
+use Trukes\ThreadsApiPhpClient\Reference\Container\User\User;
 
 final class Client implements ClientInterface
 {
-    public function __construct(private readonly TransporterInterface $transporter)
+    public function __construct(
+        private readonly Publish         $publish,
+        private readonly Media           $media,
+        private readonly ReplyManagement $replyManagement,
+        private readonly User            $user,
+        private readonly Insights        $insights,
+    )
     {
     }
 
-    public function posts(): PostsInterface
+    public function publish(): Publish
     {
-        return new Posts($this->transporter);
+        return $this->publish;
     }
 
-    public function media(): MediaInterface
+    public function media(): Media
     {
-        return new Media($this->transporter);
+        return $this->media;
     }
 
-    public function profiles(): ProfilesInterface
+    public function replyManagement(): ReplyManagement
     {
-        return new Profiles($this->transporter);
+        return $this->replyManagement;
     }
 
-    public function replyManagement(): ReplyManagementInterface
+    public function user(): User
     {
-        return new ReplyManagement($this->transporter);
+        return $this->user;
     }
 
-    public function insights(): InsightsInterface
+    public function insights(): Insights
     {
-        return new Insights($this->transporter);
+        return $this->insights;
     }
 }
