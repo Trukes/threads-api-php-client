@@ -7,9 +7,19 @@ require "vendor/autoload.php";
 use Trukes\ThreadsApiPhpClient\Threads;
 
 
-
-$reference = Threads::client('389032777277944|1deTeboDhCg7b4Ti5RHY0Ylw1cM');
-
-$create = $reference->publish()->status("1234", 'id,status,error_message')->data();
+$client = Threads::client('<your_token_here>');
+$create = $client->publish()->create(
+    'threads_user_id',
+    'media_type',
+    'text',
+    'image_url',
+    'video_url',
+    true,
+    ['children'],
+    'reply_to_id',
+    'reply_control',
+    ['allowlisted_country_codes'],
+    'all_text',
+);
 
 var_dump($create);
