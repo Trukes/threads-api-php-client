@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Trukes\ThreadsApiPhpClient\DTO;
+namespace Trukes\ThreadsApiPhpClient\ValueObject;
 
 final class Response
 {

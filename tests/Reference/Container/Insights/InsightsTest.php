@@ -6,10 +6,10 @@ namespace Tests\Reference\Container\Insights;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Tests\Responses\InsightsResponse;
-use Trukes\ThreadsApiPhpClient\DTO\Payload;
-use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\Reference\Container\Insights\Insights;
-use Trukes\ThreadsApiPhpClient\TransporterInterface;
+use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
+use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 
 final class InsightsTest extends TestCase
 {

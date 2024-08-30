@@ -6,10 +6,10 @@ namespace Tests\Reference\Container\Media;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Tests\Responses\MediaResponse;
-use Trukes\ThreadsApiPhpClient\DTO\Payload;
-use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\Reference\Container\Media\Media;
-use Trukes\ThreadsApiPhpClient\TransporterInterface;
+use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
+use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 
 final class MediaTest extends TestCase
 {

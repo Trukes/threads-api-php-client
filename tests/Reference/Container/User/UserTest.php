@@ -6,10 +6,10 @@ namespace Tests\Reference\Container\User;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Tests\Responses\UserResponse;
-use Trukes\ThreadsApiPhpClient\DTO\Payload;
-use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\Reference\Container\User\User;
-use Trukes\ThreadsApiPhpClient\TransporterInterface;
+use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
+use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 
 final class UserTest extends TestCase
 {

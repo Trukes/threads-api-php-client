@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\Reference\Container\ReplyManagement;
 
-use Trukes\ThreadsApiPhpClient\DTO\Payload;
-use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\Reference\Container\ReplyManagement\Factory\Conversation;
 use Trukes\ThreadsApiPhpClient\Reference\Container\ReplyManagement\Factory\ManageReply;
 use Trukes\ThreadsApiPhpClient\Reference\Container\ReplyManagement\Factory\Replies;
-use Trukes\ThreadsApiPhpClient\TransporterInterface;
+use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
 use Trukes\ThreadsApiPhpClient\TransporterTrait;
+use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 
 final class ReplyManagement implements ReplyManagementInterface
 {

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Trukes\ThreadsApiPhpClient\Reference;
+namespace Trukes\ThreadsApiPhpClient;
 
 use Trukes\ThreadsApiPhpClient\Reference\Container\Insights\Insights;
 use Trukes\ThreadsApiPhpClient\Reference\Container\Media\Media;
@@ -9,7 +9,7 @@ use Trukes\ThreadsApiPhpClient\Reference\Container\Publish\Publish;
 use Trukes\ThreadsApiPhpClient\Reference\Container\ReplyManagement\ReplyManagement;
 use Trukes\ThreadsApiPhpClient\Reference\Container\User\User;
 
-final class Reference implements ReferenceInterface
+final class Client implements ClientInterface
 {
     public function __construct(
         private readonly Publish         $publish,

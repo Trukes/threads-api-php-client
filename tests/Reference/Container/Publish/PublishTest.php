@@ -6,10 +6,10 @@ namespace Tests\Reference\Container\Publish;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Tests\Responses\PublishResponse;
-use Trukes\ThreadsApiPhpClient\DTO\Payload;
-use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\Reference\Container\Publish\Publish;
-use Trukes\ThreadsApiPhpClient\TransporterInterface;
+use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
+use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 
 final class PublishTest extends TestCase
 {

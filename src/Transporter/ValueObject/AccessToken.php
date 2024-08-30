@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Trukes\ThreadsApiPhpClient\DTO\Transporter;
+namespace Trukes\ThreadsApiPhpClient\Transporter\ValueObject;
 
 final class AccessToken
 {

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\Reference\Container\Publish;
 
-use Trukes\ThreadsApiPhpClient\DTO\Response;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 
 interface PublishInterface
 {

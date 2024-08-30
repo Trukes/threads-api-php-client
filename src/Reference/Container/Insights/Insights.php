@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\Reference\Container\Insights;
 
-use Trukes\ThreadsApiPhpClient\DTO\Payload;
-use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\Reference\Container\Insights\Factory\Threads;
 use Trukes\ThreadsApiPhpClient\Reference\Container\Insights\Factory\ThreadsInsights;
-use Trukes\ThreadsApiPhpClient\TransporterInterface;
+use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
 use Trukes\ThreadsApiPhpClient\TransporterTrait;
+use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 
 final class Insights implements InsightsInterface
 {

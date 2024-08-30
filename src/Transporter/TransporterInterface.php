@@ -1,9 +1,9 @@
 <?php
 
-namespace Trukes\ThreadsApiPhpClient;
+namespace Trukes\ThreadsApiPhpClient\Transporter;
 
-use Trukes\ThreadsApiPhpClient\DTO\Payload;
-use Trukes\ThreadsApiPhpClient\DTO\Response;
+use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 
 interface TransporterInterface
 {

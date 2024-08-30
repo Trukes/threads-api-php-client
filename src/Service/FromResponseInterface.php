@@ -2,7 +2,7 @@
 
 namespace Trukes\ThreadsApiPhpClient\Service;
 
-use Trukes\ThreadsApiPhpClient\DTO\Response;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 
 interface FromResponseInterface
 {

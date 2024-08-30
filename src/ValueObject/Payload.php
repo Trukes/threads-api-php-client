@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Trukes\ThreadsApiPhpClient\DTO;
+namespace Trukes\ThreadsApiPhpClient\ValueObject;
 
 use Http\Discovery\Psr17Factory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\AccessToken;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\BaseUri;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\BodyForm;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\Headers;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\QueryParams;
-use Trukes\ThreadsApiPhpClient\TransporterInterface;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\AccessToken;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\BaseUri;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\BodyForm;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\Headers;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\QueryParams;
+use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
 
 final class Payload
 {

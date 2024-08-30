@@ -1,23 +1,23 @@
 <?php
 declare(strict_types=1);
 
-namespace Trukes\ThreadsApiPhpClient;
+namespace Trukes\ThreadsApiPhpClient\Transporter;
 
 use GuzzleHttp\Exception\ClientException;
+use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
-use Trukes\ThreadsApiPhpClient\DTO\Payload;
-use JsonException;
-use Trukes\ThreadsApiPhpClient\DTO\Response;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\AccessToken;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\BaseUri;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\BodyForm;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\Headers;
-use Trukes\ThreadsApiPhpClient\DTO\Transporter\QueryParams;
 use Trukes\ThreadsApiPhpClient\Exception\ErrorException;
 use Trukes\ThreadsApiPhpClient\Exception\TransporterException;
 use Trukes\ThreadsApiPhpClient\Exception\UnserializableResponse;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\AccessToken;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\BaseUri;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\BodyForm;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\Headers;
+use Trukes\ThreadsApiPhpClient\Transporter\ValueObject\QueryParams;
+use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 
 final class Transporter implements TransporterInterface
 {

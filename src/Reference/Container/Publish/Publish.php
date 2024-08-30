@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\Reference\Container\Publish;
 
-use Trukes\ThreadsApiPhpClient\DTO\Payload;
-use Trukes\ThreadsApiPhpClient\DTO\Response;
 use Trukes\ThreadsApiPhpClient\Reference\Container\Publish\Exception\PublishException;
 use Trukes\ThreadsApiPhpClient\Reference\Container\Publish\Factory\Create;
-use Trukes\ThreadsApiPhpClient\Reference\Container\Publish\Factory\Status;
-use Trukes\ThreadsApiPhpClient\TransporterInterface;
-use Trukes\ThreadsApiPhpClient\TransporterTrait;
 use Trukes\ThreadsApiPhpClient\Reference\Container\Publish\Factory\Publish as PublishFactory;
+use Trukes\ThreadsApiPhpClient\Reference\Container\Publish\Factory\Status;
+use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
+use Trukes\ThreadsApiPhpClient\TransporterTrait;
+use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 
 final class Publish implements PublishInterface
 {

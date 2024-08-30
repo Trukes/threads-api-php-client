@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\Service\Collection;
 
-use Trukes\ThreadsApiPhpClient\DTO\Response;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 use Trukes\ThreadsApiPhpClient\Service\FromResponseInterface;
 use Exception;
 

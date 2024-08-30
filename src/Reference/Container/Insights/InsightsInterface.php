@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\Reference\Container\Insights;
 
-use Trukes\ThreadsApiPhpClient\DTO\Response;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 
 interface InsightsInterface
 {

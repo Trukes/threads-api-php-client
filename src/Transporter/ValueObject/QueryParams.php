@@ -1,6 +1,6 @@
 <?php
 
-namespace Trukes\ThreadsApiPhpClient\DTO\Transporter;
+namespace Trukes\ThreadsApiPhpClient\Transporter\ValueObject;
 
 /**
  * @internal

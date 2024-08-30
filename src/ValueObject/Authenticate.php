@@ -1,6 +1,6 @@
 <?php
 
-namespace Trukes\ThreadsApiPhpClient\DTO;
+namespace Trukes\ThreadsApiPhpClient\ValueObject;
 
 use Trukes\ThreadsApiPhpClient\Secrets\Token;
 

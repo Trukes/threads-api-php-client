@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\Service\Paging;
 
-use Trukes\ThreadsApiPhpClient\DTO\Response;
+use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 use Trukes\ThreadsApiPhpClient\Service\FromResponseInterface;
 
 final class Paging implements FromResponseInterface
