@@ -32,8 +32,11 @@ final class InsightsTest extends TestCase
 
         self::assertEquals(
             $response,
-            $this->insights->insights($threadsMediaId, $metric)
+            $response = $this->insights->insights($threadsMediaId, $metric)
         );
+
+        self::assertNotNull($response->data());
+        self::assertNotNull($response->meta());
     }
 
     public static function dataProviderInsights(): array

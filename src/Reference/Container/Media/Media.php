@@ -5,7 +5,7 @@ namespace Trukes\ThreadsApiPhpClient\Reference\Container\Media;
 
 use Trukes\ThreadsApiPhpClient\Reference\Container\Media\Factory\MediaObject;
 use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
-use Trukes\ThreadsApiPhpClient\TransporterTrait;
+use Trukes\ThreadsApiPhpClient\Transporter\TransporterTrait;
 use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
 use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 

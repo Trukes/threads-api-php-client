@@ -18,8 +18,8 @@ final class Payload
     private function __construct(
         private readonly string $method,
         private readonly string $uri,
-        private array           $queryParameters = [],
-        private array           $bodyForm = [],
+        private readonly array  $queryParameters = [],
+        private readonly array  $bodyForm = [],
         private bool            $withAccessTokenOnQueryParams = true,
         private bool            $withAccessTokenOnBodyForm = false,
     )
@@ -50,7 +50,7 @@ final class Payload
         return $this;
     }
 
-    public function toRequest(BaseUri $baseUri, AccessToken $accessToken, Headers $headers, QueryParams $queryParams, BodyForm $bodyForm): RequestInterface
+    public function toRequest(BaseUri $baseUri, AccessToken $accessToken, Headers $headers): RequestInterface
     {
         $psr17Factory = new Psr17Factory();
 
@@ -58,11 +58,7 @@ final class Payload
 
         $uri = $baseUri->toString() . $this->uri;
 
-        $queryParams = $queryParams->toArray();
-        if ($this->method === TransporterInterface::GET) {
-            $queryParams = [...$queryParams, ...$this->queryParameters];
-        }
-
+        $queryParams = $this->queryParameters;
         if ($this->withAccessTokenOnQueryParams) {
             $queryParams = [...$queryParams, ...$accessToken->toQueryParameters()];
         }
@@ -75,9 +71,9 @@ final class Payload
 
         if (
             $this->method === TransporterInterface::POST
-            && ([] !== $this->bodyForm || [] !== $bodyForm->toArray())
+            && ([] !== $this->bodyForm)
         ) {
-            $bodyForm = [...$bodyForm->toArray(), ...$this->bodyForm];
+            $bodyForm = $this->bodyForm;
             if ($this->withAccessTokenOnBodyForm) {
                 $bodyForm = [...$bodyForm, ...$accessToken->toBodyFormParameters()];
             }

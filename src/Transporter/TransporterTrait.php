@@ -1,8 +1,7 @@
 <?php
+declare(strict_types=1);
 
-namespace Trukes\ThreadsApiPhpClient;
-
-use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
+namespace Trukes\ThreadsApiPhpClient\Transporter;
 
 trait TransporterTrait
 {

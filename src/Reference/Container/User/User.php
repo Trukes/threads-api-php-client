@@ -8,7 +8,7 @@ use Trukes\ThreadsApiPhpClient\Reference\Container\User\Factory\PublishLimit;
 use Trukes\ThreadsApiPhpClient\Reference\Container\User\Factory\Replies;
 use Trukes\ThreadsApiPhpClient\Reference\Container\User\Factory\Threads;
 use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
-use Trukes\ThreadsApiPhpClient\TransporterTrait;
+use Trukes\ThreadsApiPhpClient\Transporter\TransporterTrait;
 use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
 use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 

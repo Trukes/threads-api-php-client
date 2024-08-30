@@ -6,7 +6,7 @@ namespace Trukes\ThreadsApiPhpClient\Reference\Container\Insights;
 use Trukes\ThreadsApiPhpClient\Reference\Container\Insights\Factory\Threads;
 use Trukes\ThreadsApiPhpClient\Reference\Container\Insights\Factory\ThreadsInsights;
 use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
-use Trukes\ThreadsApiPhpClient\TransporterTrait;
+use Trukes\ThreadsApiPhpClient\Transporter\TransporterTrait;
 use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
 use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 

@@ -7,7 +7,7 @@ use Trukes\ThreadsApiPhpClient\Reference\Container\ReplyManagement\Factory\Conve
 use Trukes\ThreadsApiPhpClient\Reference\Container\ReplyManagement\Factory\ManageReply;
 use Trukes\ThreadsApiPhpClient\Reference\Container\ReplyManagement\Factory\Replies;
 use Trukes\ThreadsApiPhpClient\Transporter\TransporterInterface;
-use Trukes\ThreadsApiPhpClient\TransporterTrait;
+use Trukes\ThreadsApiPhpClient\Transporter\TransporterTrait;
 use Trukes\ThreadsApiPhpClient\ValueObject\Payload;
 use Trukes\ThreadsApiPhpClient\ValueObject\Response;
 

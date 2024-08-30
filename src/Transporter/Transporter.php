@@ -25,8 +25,6 @@ final class Transporter implements TransporterInterface
         private readonly ClientInterface $httpClient,
         private readonly BaseUri $baseUri,
         private readonly Headers $headers,
-        private readonly QueryParams $queryParams,
-        private readonly BodyForm $bodyForm,
         private readonly AccessToken $accessToken
     )
     {
@@ -38,7 +36,7 @@ final class Transporter implements TransporterInterface
      */
     public function request(Payload $payload): Response
     {
-        $request = $payload->toRequest($this->baseUri, $this->accessToken, $this->headers, $this->queryParams, $this->bodyForm);
+        $request = $payload->toRequest($this->baseUri, $this->accessToken, $this->headers);
 
         try {
             $response = $this->httpClient->sendRequest($request);

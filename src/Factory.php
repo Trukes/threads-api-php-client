@@ -48,18 +48,12 @@ final class Factory
     public function make(): Client
     {
         $headers = Headers::create();
-
         $baseUri = BaseUri::from($this->config->getGraphApiBaseUrl());
-
-        $queryParams = QueryParams::create();
-
-        $bodyForm = BodyForm::create();
-
         $accessToken = AccessToken::from($this->accessToken);
 
         $client = $this->httpClient ??= Psr18ClientDiscovery::find();
 
-        $transporter = new Transporter($client, $baseUri, $headers, $queryParams, $bodyForm, $accessToken);
+        $transporter = new Transporter($client, $baseUri, $headers, $accessToken);
 
         return new Client(
             new Publish($transporter),
