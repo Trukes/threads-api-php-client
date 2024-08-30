@@ -33,7 +33,7 @@ final class Threads extends AbstractItemFactory
 
         return $this;
     }
-    public function withLimit(?string $limit): self
+    public function withLimit(?int $limit): self
     {
         $this->limit = $limit;
 

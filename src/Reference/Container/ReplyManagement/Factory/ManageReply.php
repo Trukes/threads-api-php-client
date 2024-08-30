@@ -9,7 +9,7 @@ final class ManageReply extends AbstractItemFactory
 {
     private ?bool $hide = null;
 
-    public function withHide(bool $hide): self
+    public function withHide(?bool $hide): self
     {
         $this->hide = $hide;
 
