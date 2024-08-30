@@ -25,7 +25,7 @@ A PHP library for seamless integration with the Threads API by Meta. This packag
 Installation is done via [Composer](https://getcomposer.org/). Simply run the following command:
 
 ```bash
-composer require trukes/threads-meta-api
+composer require trukes/threads-api-php-client
 ```
 
 ## Basic Usage
