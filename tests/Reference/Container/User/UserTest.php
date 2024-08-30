@@ -13,7 +13,6 @@ use Trukes\ThreadsApiPhpClient\TransporterInterface;
 
 final class UserTest extends TestCase
 {
-
     protected TransporterInterface $transporter;
     protected User $user;
 
@@ -253,7 +252,6 @@ final class UserTest extends TestCase
                     uri: 'thread-user-1/replies',
                 ),
                 Response::from(json_decode(UserResponse::THREADS_USER_REPLIES_RESPONSE, true))
-
             ]
         ];
     }
