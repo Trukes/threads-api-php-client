@@ -104,6 +104,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you have any questions or suggestions, feel free to contact us at [pedro.m.a.carmo@gmail.com](mailto:pedro.m.a.carmo@gmail.com).
 
+## ⭐️ Show Your Support
+
+If this project helped you or you find it useful, please give it a star ⭐️ on [GitHub](https://github.com/your-username/threads-meta-api). It helps others discover the project and motivates us to continue developing and improving it.
+
 ---
 
 Made with ❤️ by Trukes (https://github.com/Trukes).
