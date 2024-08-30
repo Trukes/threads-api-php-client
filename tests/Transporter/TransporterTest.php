@@ -199,7 +199,9 @@ final class TransporterTest extends TestCase
             ->willThrowException($clientException);
 
         self::expectException(ErrorException::class);
+        self::expectExceptionMessage('Error');
         $this->transporter->request($this->payload);
+
     }
 
     public function testTransporterWithClientWithNoJsonTypeException(): void

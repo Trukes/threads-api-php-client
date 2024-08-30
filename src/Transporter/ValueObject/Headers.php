@@ -1,10 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace Trukes\ThreadsApiPhpClient\Transporter\ValueObject;
 
-/**
- * @internal
- */
 final class Headers
 {
     /**
@@ -34,17 +32,6 @@ final class Headers
         return new self([
             ...$this->headers,
             'Content-Type' => $contentType.$suffix,
-        ]);
-    }
-
-    /**
-     * Creates a new Headers value object, with the newly added header, and the existing headers.
-     */
-    public function withCustomHeader(string $name, string $value): self
-    {
-        return new self([
-            ...$this->headers,
-            $name => $value,
         ]);
     }
 
